@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1">
+  <title>MyViyar — Register</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    html { height: 100%; display: flex; }
+    body {
+      background: #e8eef6; height: 100%; width: 100%;
+      margin: 0; padding: 0; display: flex;
+      justify-content: center; align-items: center; overflow: hidden;
+    }
+    * { font-family: Roboto; user-select: none; -webkit-appearance: none; }
+
+    .modal--auth {
+      width: 900px; height: 704px;
+      box-shadow: 0 8px 48px rgba(32,32,32,.25);
+      border-radius: 16px;
+      background: linear-gradient(196deg,#FFF 59.85%,rgba(255,255,255,.8) 100%);
+      display: flex; overflow: hidden;
+    }
+
+    /* ASIDE */
+    .modal-aside {
+      flex: 0 0 320px; position: relative;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding-bottom: 32px;
+      border-top-left-radius: 16px; border-bottom-left-radius: 16px; overflow: hidden;
+    }
+    .modal-aside::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg,#007FE0 51.7%,#004080 100%);
+    }
+    .modal-aside__logo { padding-left: 32px; z-index: 1; position: relative; }
+    .splash > * { position: absolute; z-index: 1; }
+    .splash-f1{border-radius:416px;background:#0092FF;filter:blur(80px);width:416px;height:416px;animation:sf1 24s ease-in-out infinite alternate}
+    .splash-f2{border-radius:352px;background:#FFD400;filter:blur(80px);width:352px;height:352px;animation:sf2 24s ease-in-out infinite alternate}
+    .splash-f3{width:112px;height:112px;background:#66BDFF;filter:blur(40px);animation:sf3 24s ease-in-out infinite alternate}
+    .splash-f4{width:160px;height:160px;background:#66BDFF;filter:blur(40px);animation:sf4 24s ease-in-out infinite alternate}
+    .splash-f5{width:160px;height:160px;background:#FFF8B0;filter:blur(40px);animation:sf5 24s ease-in-out infinite alternate}
+    @keyframes sf1{0%{top:224px;left:120px}50%{top:16px;left:120px}100%{top:112px;left:344px}}
+    @keyframes sf2{0%{top:16px;right:-120px}50%{top:264px;right:-120px}100%{top:160px;right:-320px}}
+    @keyframes sf3{0%{top:176px;left:-24px}50%{top:296px;left:-104px}100%{top:96px;left:-120px}}
+    @keyframes sf4{0%{bottom:160px;left:40px}50%{bottom:520px;left:72px}100%{bottom:520px;left:-56px}}
+    @keyframes sf5{0%{top:192px;left:96px}50%{top:624px;left:304px}100%{top:624px;left:352px}}
+
+    /* MAIN */
+    .pf-v5-c-login__container { width:100%; height:100%; position:relative; display:flex; flex-direction:column; }
+    .header__navigation {
+      height:64px; display:flex; align-items:center; justify-content:center;
+      border-bottom:1px solid #E0E0E0; box-sizing:border-box; flex-shrink:0;
+    }
+    .header__navigation > div {
+      width:50%; height:100%; display:flex; align-items:center; justify-content:center;
+      color:#0080E0; font-size:16px; font-weight:500; text-transform:uppercase;
+    }
+    .header__navigation > div.active { border-bottom:4px solid #0080E0; padding-top:4px; box-sizing:border-box; }
+    .header__navigation a { color:#0080E0; text-decoration:none; display:flex; width:100%; height:100%; align-items:center; justify-content:center; }
+    .form-body { flex:1; overflow-y:auto; }
+    .form__register { padding:24px 48px 56px; }
+
+    /* STEPS */
+    .step { display:none; }
+    .step.active { display:block; }
+
+    /* TITLE */
+    .title--login { display:flex; align-items:center; height:72px; margin-bottom:4px; }
+    .title--login svg { min-width:52px; }
+    .title--login > div { color:#202020; font-size:22px; font-weight:300; line-height:24px; padding-left:14px; }
+
+    /* FIELDS */
+    .field-wrap { margin-top:20px; position:relative; }
+    .field-wrap input, .field-wrap select {
+      border-radius:4px; border:1px solid #909090; background:#FFF;
+      height:48px; padding:0 8px 0 48px; font-size:14px;
+      width:100%; box-sizing:border-box; outline:none; transition:border-color .2s;
+    }
+    .field-wrap input:focus, .field-wrap select:focus { border-color:#0080E0; }
+    .field-wrap > svg { position:absolute; left:8px; top:8px; pointer-events:none; }
+    .pw-btn {
+      position:absolute; right:8px; top:8px; width:32px; height:32px;
+      background:none; border:none; cursor:pointer; padding:0;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .pw-hint { font-size:10px; color:#606060; padding-left:4px; margin-top:3px; }
+
+    /* ROLE */
+    .checkbox_item { display:flex; align-items:center; gap:10px; margin-top:18px; color:#606060; font-size:14px; }
+    .viy-checkbox { display:none; }
+    .viy-checkmark {
+      width:16px; height:16px; border:2px solid #202020; border-radius:3px;
+      background:white; display:flex; align-items:center; justify-content:center;
+      flex-shrink:0; cursor:pointer; transition:border-color .2s;
+    }
+    .viy-checkbox:checked + .viy-checkmark { border-color:#0080E0; }
+    .viy-checkbox:checked + .viy-checkmark::after { content:'✓'; color:#0080E0; font-size:11px; font-weight:700; }
+
+    /* AGREE-ALL block (step 3) */
+    .agree-all-block {
+      border:2px solid #E0E0E0; border-radius:10px; background:#FAFAFA;
+      padding:20px; margin-top:16px; cursor:pointer;
+      transition:border-color .2s, background .2s;
+    }
+    .agree-all-block.on { border-color:#0080E0; background:#EAF4FF; }
+    .agree-all-row { display:flex; align-items:flex-start; gap:14px; }
+    .agree-all-box {
+      width:20px; height:20px; border:2px solid #909090; border-radius:4px;
+      background:white; flex-shrink:0; margin-top:2px;
+      display:flex; align-items:center; justify-content:center; transition:border-color .2s;
+    }
+    .agree-all-block.on .agree-all-box { border-color:#0080E0; }
+    .agree-all-block.on .agree-all-box::after { content:'✓'; color:#0080E0; font-size:13px; font-weight:700; }
+    .agree-all-title { font-size:15px; font-weight:600; color:#202020; margin-bottom:5px; }
+    .agree-all-desc { font-size:13px; color:#606060; line-height:18px; }
+    .agree-all-tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:10px; }
+    .agree-tag { font-size:11px; font-weight:500; padding:3px 8px; border-radius:10px; background:#E8F0FE; color:#0080E0; }
+    .step3-divider {
+      display:flex; align-items:center; gap:10px; margin:14px 0 6px;
+      color:#909090; font-size:12px;
+    }
+    .step3-divider::before, .step3-divider::after { content:''; flex:1; height:1px; background:#E0E0E0; }
+    .step3-manual { font-size:13px; color:#606060; line-height:18px; }
+    .step3-manual strong { color:#202020; }
+
+    /* MARKET GRID (step 4) */
+    .section-hint { font-size:13px; color:#606060; margin:4px 0 10px; }
+    .market-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:6px; }
+    .market-card {
+      border:2px solid #E0E0E0; border-radius:8px; background:#FAFAFA;
+      padding:14px 10px; cursor:pointer; transition:border-color .2s, background .2s;
+      display:flex; flex-direction:column; align-items:center; gap:5px; position:relative;
+    }
+    .market-card:hover { border-color:#0080E0; }
+    .market-card.selected { border-color:#0080E0; background:#EAF4FF; }
+    .market-card .flag { font-size:28px; line-height:1; }
+    .market-card .mname { font-size:12px; font-weight:600; color:#202020; }
+    .market-card .msub { font-size:11px; color:#909090; text-align:center; line-height:13px; }
+    .market-check {
+      position:absolute; top:5px; right:7px; width:16px; height:16px;
+      border-radius:50%; background:#0080E0; color:#FFF;
+      display:none; align-items:center; justify-content:center; font-size:9px; font-weight:700;
+    }
+    .market-card.selected .market-check { display:flex; }
+
+    /* AGREE BLOCKS (step 5) */
+    .agree-block { border:1px solid #E0E0E0; border-radius:8px; padding:12px 14px; margin-top:10px; background:#FAFAFA; }
+    .agree-header { display:flex; align-items:center; gap:8px; margin-bottom:7px; }
+    .agree-flag { font-size:17px; }
+    .agree-title { font-size:13px; font-weight:600; color:#202020; }
+    .agree-scroll { max-height:66px; overflow-y:auto; font-size:12px; color:#606060; line-height:1.6; margin-bottom:9px; padding-right:4px; }
+    .agree-scroll::-webkit-scrollbar { width:3px; }
+    .agree-scroll::-webkit-scrollbar-thumb { background:#0080E0; border-radius:4px; }
+    .agree-row { display:flex; align-items:flex-start; gap:9px; cursor:pointer; }
+    .agree-row input { display:none; }
+    .agree-box {
+      width:15px; height:15px; border:2px solid #202020; border-radius:3px;
+      background:white; flex-shrink:0; margin-top:1px;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .agree-row input:checked ~ .agree-box { border-color:#0080E0; }
+    .agree-row input:checked ~ .agree-box::after { content:'✓'; color:#0080E0; font-size:9px; font-weight:700; }
+    .agree-row span { font-size:12px; color:#606060; line-height:1.5; }
+    .agree-row a { color:#0080E0; text-decoration:none; }
+
+    /* RESOURCE ITEMS (step 6) */
+    .resource-item { border:1px solid #E0E0E0; border-radius:8px; padding:11px 13px; margin-top:9px; background:#FAFAFA; transition:border-color .2s,background .2s; }
+    .resource-item.on { border-color:#0080E0; background:#EAF4FF; }
+    .res-label { display:flex; align-items:flex-start; gap:10px; cursor:pointer; }
+    .res-label input { display:none; }
+    .res-box { width:15px; height:15px; border:2px solid #202020; border-radius:3px; background:white; flex-shrink:0; margin-top:3px; display:flex; align-items:center; justify-content:center; }
+    .res-label input:checked ~ .res-box { border-color:#0080E0; }
+    .res-label input:checked ~ .res-box::after { content:'✓'; color:#0080E0; font-size:9px; font-weight:700; }
+    .res-flag { font-size:19px; flex-shrink:0; }
+    .res-info { flex:1; }
+    .res-name { font-size:13px; font-weight:600; color:#202020; display:flex; align-items:center; gap:6px; margin-bottom:2px; }
+    .res-domain { font-size:11px; color:#0080E0; background:#EAF4FF; padding:1px 6px; border-radius:8px; }
+    .res-desc { font-size:12px; color:#606060; line-height:14px; }
+    .res-note { font-size:11px; color:#909090; margin-top:8px; }
+
+    /* MARKETING (step 7) */
+    .mkt-block { border:1px solid #E0E0E0; border-radius:8px; padding:14px; margin-top:10px; background:#FAFAFA; transition:border-color .2s,background .2s; }
+    .mkt-block.on { border-color:#0080E0; background:#EAF4FF; }
+    .mkt-row { display:flex; align-items:center; gap:10px; cursor:pointer; }
+    .mkt-row input { display:none; }
+    .mkt-box { width:15px; height:15px; border:2px solid #202020; border-radius:3px; background:white; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+    .mkt-row input:checked ~ .mkt-box { border-color:#0080E0; }
+    .mkt-row input:checked ~ .mkt-box::after { content:'✓'; color:#0080E0; font-size:9px; font-weight:700; }
+    .mkt-icon { font-size:17px; flex-shrink:0; }
+    .mkt-name { font-size:13px; font-weight:600; color:#202020; flex:1; }
+    .mkt-optional { font-size:10px; color:#909090; background:#F0F0F0; padding:2px 7px; border-radius:8px; }
+    .mkt-desc { font-size:12px; color:#606060; line-height:14px; margin-top:4px; padding-left:26px; }
+    .mkt-gdpr { font-size:11px; color:#909090; line-height:14px; margin-top:10px; border-top:1px solid #E0E0E0; padding-top:9px; }
+    .mkt-gdpr a { color:#0080E0; text-decoration:none; }
+
+    /* BUTTONS */
+    .credentials { display:flex; justify-content:flex-end; align-items:center; margin-top:28px; height:48px; }
+    .credentials a { cursor:pointer; color:#0080E0; font-size:14px; font-weight:500; margin-right:28px; text-decoration:none; border:none; background:none; outline:none; }
+    .credentials input[type=button], .credentials input[type=submit] {
+      color:#FFF; font-size:16px; font-weight:600; padding:16px 40px;
+      border-radius:24px; border:none; outline:none;
+      background:#0080E0; cursor:pointer; text-transform:uppercase; transition:background .3s;
+    }
+    .credentials input:hover { background:#30a0f0; }
+    .credentials input:active { background:#0060c0; }
+
+    /* ERROR */
+    .error-msg { display:none; text-align:center; font-size:12px; color:red; margin-top:5px; }
+    .error-msg.show { display:block; }
+
+    /* PROGRESS */
+    .line--progress {
+      width: calc(100% + 96px); margin-left: -48px;
+      height: 20px; padding: 0 0 4px;
+      position: relative; display: flex;
+      justify-content: space-between; margin-top: 32px;
+      align-items: flex-end;
+    }
+    .line--progress > div { height: 4px; background: #D0D0D0; border-radius: 2px; width: calc(12.5% - 2px); }
+    .line--progress > div.active__line { background: #40E000; }
+
+    @media (max-width:750px) {
+      .modal--auth { width:100%; height:100%; border-radius:0; flex-direction:column; }
+      .modal-aside { flex:0 0 140px; border-radius:0; }
+      .modal-aside .splash > * { display:none; }
+      .form__register { padding:16px 20px 56px; }
+      .market-grid { gap:8px; }
+    }
+  </style>
+</head>
+<body>
+<div class="modal--auth">
+
+  <!-- ASIDE -->
+  <div class="modal-aside">
+    <div class="splash">
+      <div class="splash-f1"></div><div class="splash-f2"></div>
+      <div class="splash-f3"></div><div class="splash-f4"></div><div class="splash-f5"></div>
+    </div>
+    <div class="modal-aside__logo">
+      <svg width="144" height="64" viewBox="0 0 144 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M48 8C48 8.79113 47.7654 9.56449 47.3259 10.2223C46.8863 10.8801 46.2617 11.3928 45.5308 11.6955C44.7999 11.9983 43.9956 12.0775 43.2197 11.9231C42.4437 11.7688 41.731 11.3878 41.1716 10.8284C40.6122 10.269 40.2312 9.55629 40.0768 8.78036C39.9225 8.00444 40.0018 7.20017 40.3045 6.46927C40.6073 5.73836 41.1199 5.11366 41.7777 4.67413C42.4355 4.23461 43.2089 4 44 4C45.0609 4 46.0783 4.42142 46.8284 5.17157C47.5786 5.92172 48 6.93913 48 8ZM40 16H48V48H44C42.9391 48 41.9217 47.5786 41.1716 46.8284C40.4214 46.0783 40 45.0609 40 44V16ZM27.2 16H36L22 48H18C16.8324 48.0002 15.6901 47.6597 14.7131 47.0202C13.7362 46.3807 12.967 45.4701 12.5 44.4L0 16H8.79999L18 37.02L27.2 16ZM112 16V18.88C109.744 17.0279 106.919 16.0107 104 16C99.7565 16 95.6869 17.6857 92.6863 20.6863C89.6857 23.6869 88 27.7565 88 32C88 36.2435 89.6857 40.3131 92.6863 43.3137C95.6869 46.3143 99.7565 48 104 48C106.98 47.978 109.859 46.917 112.14 45C112.361 45.8565 112.86 46.6155 113.558 47.1583C114.257 47.7011 115.115 47.9971 116 48H120V16H112ZM104 40C102.418 40 100.871 39.5308 99.5554 38.6518C98.2398 37.7727 97.2144 36.5233 96.6089 35.0615C96.0034 33.5997 95.8451 31.9911 96.1537 30.4393C96.4624 28.8874 97.2243 27.462 98.3431 26.3431C99.462 25.2243 100.887 24.4624 102.439 24.1537C103.991 23.845 105.6 24.0035 107.061 24.609C108.523 25.2145 109.773 26.2399 110.652 27.5555C111.531 28.871 112 30.4177 112 32C112 34.1217 111.157 36.1566 109.657 37.6569C108.157 39.1572 106.122 40 104 40ZM140 16H144V24H140C137.878 24 135.843 24.8428 134.343 26.3431C132.843 27.8434 132 29.8783 132 32V48H128C126.939 48 125.922 47.5786 125.172 46.8284C124.421 46.0783 124 45.0609 124 44V16H132V18.88C134.256 17.0279 137.081 16.0107 140 16ZM88 16L69.88 57.3C69.5343 58.1049 68.9593 58.7902 68.2266 59.2704C67.4939 59.7505 66.636 60.0043 65.76 60C65.1247 60.0042 64.4962 59.8676 63.92 59.6L60.7 58.18L65.6 47.08L52 16H60.8L70 37.02L79.2 16H88Z" fill="white"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="pf-v5-c-login__container">
+    <div class="header__navigation">
+      <div class="active">Register</div>
+      <div><a href="#">Sign In</a></div>
+    </div>
+    <div class="form-body">
+      <form id="regForm" action="#" method="post">
+        <div class="form__register">
+
+          <!-- ═══ STEP 1 — Personal info ═══ -->
+          <div class="step active" id="step1">
+            <div class="title--login">
+              <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 64 64" fill="none">
+                <path opacity=".5" d="M32 35C26.93 35 23 28.01 23 22V20C23 15.04 27.04 11 32 11C36.96 11 41 15.04 41 20V22C41 28.01 37.07 35 32 35ZM28 53H56V47.13C56 44.88 55.06 42.72 53.39 41.21C49.42 37.64 44.56 35.05 39.18 33.82L32 41L28 37V53Z" fill="#60C0FF"/>
+                <path d="M20 57C26.63 57 32 51.63 32 45C32 38.37 26.63 33 20 33C13.37 33 8 38.37 8 45C8 51.63 13.37 57 20 57ZM17 40L19 38L26 45L19 52L17 50L22 45L17 40Z" fill="#60C0FF"/>
+              </svg>
+              <div>Enter your details</div>
+            </div>
+
+            <div class="field-wrap" style="margin-top:24px">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 16C19.31 16 22 13.31 22 10C22 6.69 19.31 4 16 4C12.69 4 10 6.69 10 10C10 13.31 12.69 16 16 16ZM16 19C12.03 19 4 21 4 25V28H28V25C28 21 19.97 19 16 19Z" fill="#909090"/></svg>
+              <input type="text" id="firstName" name="firstName" placeholder="First name" autocomplete="off" style="padding-left:48px">
+            </div>
+            <div class="field-wrap" style="margin-top:16px">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 16C19.31 16 22 13.31 22 10C22 6.69 19.31 4 16 4C12.69 4 10 6.69 10 10C10 13.31 12.69 16 16 16ZM16 19C12.03 19 4 21 4 25V28H28V25C28 21 19.97 19 16 19Z" fill="#909090"/></svg>
+              <input type="text" id="lastName" name="lastName" placeholder="Last name" autocomplete="off" style="padding-left:48px">
+            </div>
+
+            <div class="checkbox_item">
+              <input type="checkbox" id="isMaker" class="viy-checkbox">
+              <label class="viy-checkmark" for="isMaker"></label>
+              <label for="isMaker" style="cursor:pointer">Furniture maker</label>
+              <input type="hidden" name="user.attributes.role" value="client">
+            </div>
+
+            <div class="credentials">
+              <input type="button" value="Continue" onclick="goStep(2)">
+            </div>
+            <div class="error-msg" id="err1">Please fill in your first and last name</div>
+            <div class="line--progress">
+              <div class="active__line"></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+            </div>
+          </div>
+
+          <!-- ═══ STEP 2 — Location ═══ -->
+          <div class="step" id="step2">
+            <div class="title--login">
+              <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 64 64" fill="none">
+                <path d="M32 8C22.06 8 14 16.06 14 26C14 40.5 32 56 32 56C32 56 50 40.5 50 26C50 16.06 41.94 8 32 8ZM32 32C28.69 32 26 29.31 26 26C26 22.69 28.69 20 32 20C35.31 20 38 22.69 38 26C38 29.31 35.31 32 32 32Z" fill="#60C0FF" opacity=".8"/>
+              </svg>
+              <div>Your location</div>
+            </div>
+
+            <div class="field-wrap" style="margin-top:20px">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 26C16 26 11.8 21.5 10 18C9.1 16.2 8 14.1 8 12C8 7.6 11.6 4 16 4C20.4 4 24 7.6 24 12C24 14.1 22.9 16.2 22 18C20.2 21.5 16 26 16 26ZM16 9C14.3 9 13 10.3 13 12C13 13.7 14.3 15 16 15C17.7 15 19 13.7 19 12C19 10.3 17.7 9 16 9Z" fill="#909090"/></svg>
+              <select id="country" name="user.attributes.country" style="padding-left:48px">
+                <option value="" disabled selected>Country</option>
+                <option value="UA">🇺🇦 Ukraine</option>
+                <option value="PL">🇵🇱 Poland</option>
+                <option value="DE">🇩🇪 Germany</option>
+                <option value="CZ">🇨🇿 Czech Republic</option>
+                <option value="SK">🇸🇰 Slovakia</option>
+                <option value="HU">🇭🇺 Hungary</option>
+                <option value="OTHER">🌍 Other</option>
+              </select>
+            </div>
+            <div class="field-wrap" style="margin-top:16px">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 26C16 26 11.8 21.5 10 18C9.1 16.2 8 14.1 8 12C8 7.6 11.6 4 16 4C20.4 4 24 7.6 24 12C24 14.1 22.9 16.2 22 18C20.2 21.5 16 26 16 26ZM16 9C14.3 9 13 10.3 13 12C13 13.7 14.3 15 16 15C17.7 15 19 13.7 19 12C19 10.3 17.7 9 16 9Z" fill="#909090"/></svg>
+              <input type="text" id="city" name="user.attributes.city" placeholder="Settlement" style="padding-left:48px">
+            </div>
+            <div class="field-wrap" style="margin-top:16px">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M8 7L11.6 7.1C12 7.1 12.4 7.4 12.4 7.9C12.5 9.1 12.9 11.1 13 11.6C13.1 12.6 12.8 12.9 10.9 14.8C10.9 14.8 11.6 16.5 13.6 18.4C15.6 20.3 17.2 21.1 17.2 21.1L19.1 19.2C19.9 18.9 20.4 19 22.2 19.4C23.6 19.6 24.9 19.6 24.9 20.4L25 24C25 24.6 24.6 25 24 25C21.8 24.9 16.4 24.3 12 20C7.6 15.6 7 10.2 7 8C7 7.4 7.4 7 8 7ZM16 7V9C19.9 9 23 12.1 23 16H25C25 11 21 7 16 7ZM16 11V13C17.7 13 19 14.3 19 16H21C21 13.2 18.8 11 16 11Z" fill="#909090"/></svg>
+              <input type="tel" id="phone" name="user.attributes.phone" placeholder="Phone number" style="padding-left:48px">
+            </div>
+
+            <div class="credentials">
+              <a onclick="goStep(1)">Return</a>
+              <input type="button" value="Continue" onclick="goStep(3)">
+            </div>
+            <div class="error-msg" id="err2">Please fill in all location fields</div>
+            <div class="line--progress">
+              <div class="active__line"></div><div class="active__line"></div><div></div><div></div><div></div><div></div><div></div><div></div>
+            </div>
+          </div>
+
+          <!-- ═══ STEP 3 — Agree all OR step-by-step ═══ -->
+          <div class="step" id="step3">
+            <div class="title--login">
+              <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 64 64" fill="none">
+                <path d="M44 8H20C17.8 8 16 9.8 16 12V52C16 54.2 17.8 56 20 56H44C46.2 56 48 54.2 48 52V12C48 9.8 46.2 8 44 8ZM24 16H40V20H24V16ZM24 24H40V28H24V24ZM36 44H24V40H36V44ZM40 36H24V32H40V36Z" fill="#60C0FF" opacity=".8"/>
+              </svg>
+              <div>Rights &amp; consents</div>
+            </div>
+
+            <!-- THE ONE CHECKBOX -->
+            <div class="agree-all-block" id="agreeAllBlock" onclick="toggleAgreeAll()">
+              <div class="agree-all-row">
+                <div class="agree-all-box" id="agreeAllBox"></div>
+                <div>
+                  <div class="agree-all-title">I agree to everything</div>
+                  <div class="agree-all-desc">Accept all market terms, grant access to all Viyar platforms and subscribe to email updates — all at once.</div>
+                  <div class="agree-all-tags">
+                    <span class="agree-tag">🇺🇦 Ukraine</span>
+                    <span class="agree-tag">🇵🇱 Poland</span>
+                    <span class="agree-tag">🇩🇪 Germany</span>
+                    <span class="agree-tag">🇪🇺 EU</span>
+                    <span class="agree-tag">viyar.ua</span>
+                    <span class="agree-tag">viyar.pl</span>
+                    <span class="agree-tag">viyar.pro</span>
+                    <span class="agree-tag">📧 Newsletter</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step3-divider">or choose manually</div>
+            <div class="step3-manual">
+              <strong>Step by step</strong> — select specific markets, platforms and consents on the following screens.
+            </div>
+
+            <div class="credentials">
+              <a onclick="goStep(2)">Return</a>
+              <input type="button" value="Continue" onclick="goStepFrom3()">
+            </div>
+            <div class="line--progress">
+              <div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div></div><div></div><div></div><div></div><div></div>
+            </div>
+          </div>
+
+          <!-- ═══ STEP 4 — Choose markets (manual path) ═══ -->
+          <div class="step" id="step4">
+            <div class="title--login">
+              <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 64 64" fill="none">
+                <path d="M8 16H56V24C56 24 52 28 44 28C38 28 34 24 32 24C30 24 26 28 20 28C12 28 8 24 8 24V16Z" fill="#60C0FF" opacity=".5"/>
+                <path d="M8 28V52H24V40H40V52H56V28C56 28 52 32 44 32C36 32 34 28 32 28C30 28 28 32 20 32C12 32 8 28 8 28ZM10 8H54L56 16H8L10 8Z" fill="#60C0FF"/>
+              </svg>
+              <div>Choose markets</div>
+            </div>
+            <div class="section-hint">Select the markets you want to work with</div>
+            <div class="market-grid">
+              <div class="market-card" data-market="UA" onclick="toggleMarket(this)">
+                <div class="market-check">✓</div>
+                <div class="flag">🇺🇦</div><div class="mname">Ukraine</div>
+                <div class="msub">Ukrainian furniture market</div>
+              </div>
+              <div class="market-card" data-market="PL" onclick="toggleMarket(this)">
+                <div class="market-check">✓</div>
+                <div class="flag">🇵🇱</div><div class="mname">Poland</div>
+                <div class="msub">Polish furniture market</div>
+              </div>
+              <div class="market-card" data-market="DE" onclick="toggleMarket(this)">
+                <div class="market-check">✓</div>
+                <div class="flag">🇩🇪</div><div class="mname">Germany</div>
+                <div class="msub">German furniture market</div>
+              </div>
+              <div class="market-card" data-market="EU" onclick="toggleMarket(this)">
+                <div class="market-check">✓</div>
+                <div class="flag">🇪🇺</div><div class="mname">EU General</div>
+                <div class="msub">All EU markets</div>
+              </div>
+            </div>
+            <div class="credentials">
+              <a onclick="goStep(3)">Return</a>
+              <input type="button" value="Continue" onclick="goStep(5)">
+            </div>
+            <div class="error-msg" id="err4">Please select at least one market</div>
+            <div class="line--progress">
+              <div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div></div><div></div><div></div><div></div>
+            </div>
+          </div>
+
+          <!-- ═══ STEP 5 — Market agreements ═══ -->
+          <div class="step" id="step5">
+            <div class="title--login">
+              <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 64 64" fill="none">
+                <path d="M44 8H20C17.8 8 16 9.8 16 12V52C16 54.2 17.8 56 20 56H44C46.2 56 48 54.2 48 52V12C48 9.8 46.2 8 44 8ZM24 16H40V20H24V16ZM24 24H40V28H24V24ZM36 44H24V40H36V44ZM40 36H24V32H40V36Z" fill="#60C0FF" opacity=".8"/>
+              </svg>
+              <div>Market agreements</div>
+            </div>
+            <div id="marketAgreementsContainer"></div>
+            <div class="credentials">
+              <a onclick="goStep(4)">Return</a>
+              <input type="button" value="Continue" onclick="goStep(6)">
+            </div>
+            <div class="error-msg" id="err5">Please accept all market agreements</div>
+            <div class="line--progress">
+              <div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div></div><div></div><div></div>
+            </div>
+          </div>
+
+          <!-- ═══ STEP 6 — Platform access ═══ -->
+          <div class="step" id="step6">
+            <div class="title--login">
+              <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 64 64" fill="none">
+                <path opacity=".6" d="M32 8C18.74 8 8 18.74 8 32C8 45.26 18.74 56 32 56C45.26 56 56 45.26 56 32C56 18.74 45.26 8 32 8ZM32 12C37.12 12 41.8 13.9 45.4 17.04L17.04 45.4C13.9 41.8 12 37.12 12 32C12 20.96 20.96 12 32 12ZM32 52C26.88 52 22.2 50.1 18.6 46.96L46.96 18.6C50.1 22.2 52 26.88 52 32C52 43.04 43.04 52 32 52Z" fill="#60C0FF"/>
+              </svg>
+              <div>Platform access</div>
+            </div>
+            <div class="section-hint">Select at least one platform you want to access</div>
+            <div id="resourceList"></div>
+            <div class="res-note" id="resourceNote"></div>
+            <div class="credentials">
+              <a onclick="goStep(5)">Return</a>
+              <input type="button" value="Continue" onclick="goStep(7)">
+            </div>
+            <div class="error-msg" id="err6">Please select at least one platform</div>
+            <div class="line--progress">
+              <div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div></div><div></div>
+            </div>
+          </div>
+
+          <!-- ═══ STEP 7 — Marketing ═══ -->
+          <div class="step" id="step7">
+            <div class="title--login">
+              <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 64 64" fill="none">
+                <path opacity=".5" d="M56 16H8C5.8 16 4 17.8 4 20V44C4 46.2 5.8 48 8 48H56C58.2 48 60 46.2 60 44V20C60 17.8 58.2 16 56 16ZM56 24L32 36L8 24V20L32 32L56 20V24Z" fill="#60C0FF"/>
+              </svg>
+              <div>Communication</div>
+            </div>
+            <div class="section-hint">Optional — you can change this anytime in settings</div>
+            <div class="mkt-block" id="mktEmailBlock">
+              <label class="mkt-row">
+                <input type="checkbox" id="mktEmail" name="user.attributes.mkt_email" onchange="document.getElementById('mktEmailBlock').classList.toggle('on',this.checked)">
+                <span class="mkt-box"></span>
+                <span class="mkt-icon">📧</span>
+                <span class="mkt-name">Email newsletters</span>
+                <span class="mkt-optional">Optional</span>
+              </label>
+              <div class="mkt-desc">New products, price updates, market news and exclusive offers from Viyar and its partners.</div>
+              <div class="mkt-gdpr">By subscribing you consent to processing of your personal data per our <a href="#">Privacy Policy</a> and GDPR. You may withdraw consent at any time.</div>
+            </div>
+            <div class="credentials">
+              <a onclick="goStep(6)">Return</a>
+              <input type="button" value="Continue" onclick="goStep(8)">
+            </div>
+            <div class="line--progress">
+              <div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div></div>
+            </div>
+          </div>
+
+          <!-- ═══ STEP 8 — Credentials (both paths end here) ═══ -->
+          <div class="step" id="step8">
+            <div class="title--login">
+              <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 64 64" fill="none">
+                <path d="M32 4C26.48 4 22 8.48 22 14C22 19.52 26.48 24 32 24C37.52 24 42 19.52 42 14C42 8.48 37.52 4 32 4ZM32 28C21.33 28 8 33.34 8 44V52H56V44C56 33.34 42.67 28 32 28Z" fill="#60C0FF" opacity=".6"/>
+                <path d="M46 38C41.58 38 38 41.58 38 46C38 50.42 41.58 54 46 54C50.42 54 54 50.42 54 46C54 41.58 50.42 38 46 38ZM44 52V44L50 48L44 52Z" fill="#60C0FF"/>
+              </svg>
+              <div>Create your login</div>
+            </div>
+
+            <div class="field-wrap" style="margin-top:20px">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M11.6 16L5 22.6V9.4L11.6 16ZM25.6 8H6.4L16 17.6L25.6 8ZM19 17.4L16.7 19.7C16.5 19.9 16.3 20 16 20C15.7 20 15.5 19.9 15.3 19.7L13 17.4L6.4 24H25.6L19 17.4ZM20.4 16L27 22.6V9.4L20.4 16Z" fill="#909090"/></svg>
+              <input type="email" id="email" name="email" placeholder="E-mail" autocomplete="off" style="padding-left:48px">
+            </div>
+
+            <div class="field-wrap" style="margin-top:16px">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M23 13H12V9C12 6.8 13.8 5 16 5C18.2 5 20 6.8 20 9V10H22V9C22 5.7 19.3 3 16 3C12.7 3 10 5.7 10 9V13H9C8.4 13 8 13.4 8 14V21C8 24.3 10.7 27 14 27H18C21.3 27 24 24.3 24 21V14C24 13.4 23.6 13 23 13ZM17 22C17 22.6 16.6 23 16 23C15.4 23 15 22.6 15 22V19C15 18.4 15.4 18 16 18C16.6 18 17 18.4 17 19V22Z" fill="#909090"/></svg>
+              <input type="password" id="password" name="password" placeholder="Password" autocomplete="new-password" minlength="8" style="padding-left:48px;padding-right:48px">
+              <button type="button" class="pw-btn" onclick="togglePw('password')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32" fill="none"><path d="M16 9C9.6 9 5 16 5 16C5 16 8.7 23 16 23C23.3 23 27 16 27 16C27 16 22.4 9 16 9ZM16 21C13.2 21 11 18.8 11 16C11 13.2 13.2 11 16 11C18.8 11 21 13.2 21 16C21 18.8 18.8 21 16 21Z" fill="#606060"/></svg>
+              </button>
+              <div class="pw-hint">At least 8 characters</div>
+            </div>
+
+            <div class="field-wrap" style="margin-top:16px">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M23 13H12V9C12 6.8 13.8 5 16 5C18.2 5 20 6.8 20 9V10H22V9C22 5.7 19.3 3 16 3C12.7 3 10 5.7 10 9V13H9C8.4 13 8 13.4 8 14V21C8 24.3 10.7 27 14 27H18C21.3 27 24 24.3 24 21V14C24 13.4 23.6 13 23 13ZM17 22C17 22.6 16.6 23 16 23C15.4 23 15 22.6 15 22V19C15 18.4 15.4 18 16 18C16.6 18 17 18.4 17 19V22Z" fill="#909090"/></svg>
+              <input type="password" id="passwordConfirm" name="password-confirm" placeholder="Confirm password" autocomplete="new-password" minlength="8" style="padding-left:48px;padding-right:48px">
+              <button type="button" class="pw-btn" onclick="togglePw('passwordConfirm')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32" fill="none"><path d="M16 9C9.6 9 5 16 5 16C5 16 8.7 23 16 23C23.3 23 27 16 27 16C27 16 22.4 9 16 9ZM16 21C13.2 21 11 18.8 11 16C11 13.2 13.2 11 16 11C18.8 11 21 13.2 21 16C21 18.8 18.8 21 16 21Z" fill="#606060"/></svg>
+              </button>
+            </div>
+
+            <div class="credentials">
+              <a id="step8Back">Return</a>
+              <input type="button" value="Submit" onclick="submitForm()">
+            </div>
+            <div class="error-msg" id="err8">Check email and make sure passwords match (min 8 chars)</div>
+            <div class="line--progress">
+              <div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div class="active__line"></div><div class="active__line"></div>
+            </div>
+          </div>
+
+        </div><!-- /form__register -->
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentStep = 1;
+  let agreeAllChecked = false;
+
+  const AGREEMENTS = {
+    UA:{ flag:'🇺🇦', title:'Ukraine Market Agreement', text:'Ця угода регулює доступ до українського ринку меблів на платформі MyViyar. Приймаючи цю угоду, ви підтверджуєте відповідність українському законодавству (ЗУ "Про електронну комерцію", ЗУ "Про захист прав споживачів"). Усі оголошення повинні відповідати українським стандартам. Дані обробляються відповідно до законодавства України про захист даних. Суперечки підпадають під юрисдикцію України.' },
+    PL:{ flag:'🇵🇱', title:'Poland Market Agreement', text:'Niniejsza umowa reguluje dostęp do polskiego rynku mebli na platformie MyViyar. Akceptując ją, potwierdzasz zgodność z polskim prawem (Ustawa o świadczeniu usług drogą elektroniczną, RODO). Wszystkie oferty muszą spełniać unijne normy bezpieczeństwa. Spory rozstrzygane są pod jurysdykcją polską.' },
+    DE:{ flag:'🇩🇪', title:'Germany Market Agreement', text:'This agreement covers your participation in the German furniture market on MyViyar. By accepting, you agree to comply with German commercial law (HGB, BGB), EU consumer protection directives, and GDPR. VAT obligations under German law apply. Returns policy must comply with 14-day withdrawal rights.' },
+    EU:{ flag:'🇪🇺', title:'EU General Markets Agreement', text:'This agreement covers access to all EU markets on MyViyar. By accepting, you confirm compliance with the Digital Services Act (DSA), GDPR, EU Consumer Rights Directive, and applicable VAT rules in each member state. Cross-border sales are subject to destination-country tax rules.' }
+  };
+
+  const RESOURCES = {
+    PRO:{ flag:'🌐', domain:'viyar.pro', name:'Viyar Pro', desc:'Professional workspace — advanced tools for furniture makers, B2B orders, cross-market analytics.' },
+    UA: { flag:'🇺🇦', domain:'viyar.ua',  name:'Viyar Ukraine', desc:'The main Ukrainian platform — catalogue, orders, supplier contacts, delivery within Ukraine.' },
+    PL: { flag:'🇵🇱', domain:'viyar.pl',  name:'Viyar Poland',  desc:'The Polish platform — product catalogue, cooperation with Polish suppliers, EU shipping.' },
+    DE: { flag:'🇩🇪', domain:'viyar.de',  name:'Viyar Germany', desc:'The German platform — CE-certified products, DSGVO-compliant data handling, German-market suppliers.' }
+  };
+
+  /* ── SHOW STEP ── */
+  function showStep(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    const el = document.getElementById('step' + n);
+    if (el) el.classList.add('active');
+    currentStep = n;
+  }
+
+  /* ── NAVIGATION ── */
+  function goStep(n) {
+    if (n > currentStep && !validate(currentStep)) return;
+    if (n === 5) renderMarketAgreements();
+    if (n === 6) renderResources();
+    showStep(n);
+  }
+
+  /* ── STEP 3 BRANCH ── */
+  function goStepFrom3() {
+    if (agreeAllChecked) {
+      // Fast path: go straight to credentials
+      document.getElementById('step8Back').onclick = () => showStep(3);
+      showStep(8);
+    } else {
+      // Manual path: step 4 → 5 → 6 → 7 → 8
+      document.getElementById('step8Back').onclick = () => goStep(7);
+      showStep(4);
+    }
+  }
+
+  /* ── VALIDATE ── */
+  function validate(step) {
+    const hide = id => document.getElementById(id).classList.remove('show');
+    const show = id => document.getElementById(id).classList.add('show');
+
+    if (step === 1) {
+      const ok = document.getElementById('firstName').value.trim() && document.getElementById('lastName').value.trim();
+      if (!ok) { show('err1'); return false; } hide('err1'); return true;
+    }
+    if (step === 2) {
+      const ok = document.getElementById('country').value && document.getElementById('city').value.trim() && document.getElementById('phone').value.trim();
+      if (!ok) { show('err2'); return false; } hide('err2'); return true;
+    }
+    if (step === 3) { return true; }
+    if (step === 4) {
+      if (!getSelectedMarkets().length) { show('err4'); return false; } hide('err4'); return true;
+    }
+    if (step === 5) {
+      const all = getSelectedMarkets().every(m => { const cb = document.getElementById('agree_'+m); return cb && cb.checked; });
+      if (!all) { show('err5'); return false; } hide('err5'); return true;
+    }
+    if (step === 6) {
+      const any = Array.from(document.querySelectorAll('#resourceList input[type=checkbox]')).some(cb => cb.checked);
+      if (!any) { show('err6'); return false; } hide('err6'); return true;
+    }
+    if (step === 7) { return true; }
+    if (step === 8) {
+      const em = document.getElementById('email').value.trim();
+      const pw = document.getElementById('password').value;
+      const pc = document.getElementById('passwordConfirm').value;
+      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em) && pw.length >= 8 && pw === pc;
+      if (!ok) { show('err8'); return false; } hide('err8'); return true;
+    }
+    return true;
+  }
+
+  function submitForm() {
+    if (!validate(8)) return;
+    alert('Account created successfully! ✓');
+  }
+
+  /* ── AGREE ALL (step 3) ── */
+  function toggleAgreeAll() {
+    agreeAllChecked = !agreeAllChecked;
+    document.getElementById('agreeAllBlock').classList.toggle('on', agreeAllChecked);
+  }
+
+  /* ── MARKETS (step 4) ── */
+  function toggleMarket(el) {
+    el.classList.toggle('selected');
+    document.getElementById('err4').classList.remove('show');
+  }
+
+  function getSelectedMarkets() {
+    return Array.from(document.querySelectorAll('.market-card.selected')).map(c => c.dataset.market);
+  }
+
+  /* ── RENDER AGREEMENTS (step 5) ── */
+  function renderMarketAgreements() {
+    const c = document.getElementById('marketAgreementsContainer');
+    c.innerHTML = '';
+    getSelectedMarkets().forEach(m => {
+      const ag = AGREEMENTS[m]; if (!ag) return;
+      const d = document.createElement('div');
+      d.className = 'agree-block';
+      d.innerHTML = `
+        <div class="agree-header"><span class="agree-flag">${ag.flag}</span><span class="agree-title">${ag.title}</span></div>
+        <div class="agree-scroll">${ag.text}</div>
+        <label class="agree-row">
+          <input type="checkbox" id="agree_${m}">
+          <span class="agree-box"></span>
+          <span>I have read and agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a> for the ${ag.title}.</span>
+        </label>`;
+      c.appendChild(d);
+    });
+  }
+
+  /* ── RENDER RESOURCES (step 6) ── */
+  function renderResources() {
+    const markets = getSelectedMarkets();
+    const list = document.getElementById('resourceList');
+    list.innerHTML = '';
+    const toShow = ['PRO'];
+    if (markets.includes('UA')) toShow.push('UA');
+    if (markets.includes('PL')) toShow.push('PL');
+    if (markets.includes('DE')) toShow.push('DE');
+    toShow.forEach(key => {
+      const r = RESOURCES[key];
+      const item = document.createElement('div');
+      item.className = 'resource-item';
+      item.innerHTML = `
+        <label class="res-label">
+          <input type="checkbox" id="res_${key}" onchange="this.closest('.resource-item').classList.toggle('on',this.checked);document.getElementById('err6').classList.remove('show')">
+          <span class="res-box"></span>
+          <span class="res-flag">${r.flag}</span>
+          <span class="res-info">
+            <span class="res-name">${r.name}<span class="res-domain">${r.domain}</span></span>
+            <span class="res-desc">${r.desc}</span>
+          </span>
+        </label>`;
+      list.appendChild(item);
+    });
+    document.getElementById('resourceNote').textContent = 'You can add more platforms later from account settings.';
+  }
+
+  /* ── PW TOGGLE ── */
+  function togglePw(id) {
+    const inp = document.getElementById(id);
+    inp.type = inp.type === 'password' ? 'text' : 'password';
+  }
+
+  showStep(1);
+</script>
+</body>
+</html>
