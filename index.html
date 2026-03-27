@@ -280,6 +280,98 @@ body::before {
 .btn-sub:active { transform: scale(.97); }
 .btn-sub:disabled { background: #93c5fd; box-shadow: none; cursor: default; }
 
+/* ── Screen switcher ── */
+.screen { display: none; flex-direction: column; height: 100%; }
+.screen.active { display: flex; }
+
+/* ── Login screen ── */
+.login-body {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: center; padding: 32px 36px 24px;
+  overflow-y: auto;
+}
+.login-heading { margin-bottom: 28px; }
+.login-title {
+  font-size: 22px; font-weight: 700; color: var(--text-primary);
+  letter-spacing: -.03em; margin-bottom: 4px;
+}
+.login-sub { font-size: 13px; color: var(--text-muted); }
+
+/* Social buttons */
+.social-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+.social-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  height: 42px; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--surface); cursor: pointer; font-family: 'Inter', sans-serif;
+  font-size: 13px; font-weight: 500; color: var(--text-primary);
+  transition: all .15s; text-decoration: none;
+}
+.social-btn:hover { border-color: var(--border-strong); background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+.social-btn svg { flex-shrink: 0; }
+.social-btn-full {
+  grid-column: 1/-1;
+}
+
+/* Divider */
+.or-divider {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 600; color: var(--text-muted);
+  letter-spacing: .05em; text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.or-divider::before, .or-divider::after { content:''; flex:1; height:1px; background: var(--border); }
+
+/* Login fields */
+.login-fields { display: flex; flex-direction: column; gap: 14px; margin-bottom: 8px; }
+
+/* Forgot link */
+.forgot-row { display: flex; justify-content: flex-end; margin-top: -6px; margin-bottom: 18px; }
+.forgot-link {
+  font-size: 12px; color: var(--blue); font-weight: 500;
+  text-decoration: none; transition: color .15s;
+}
+.forgot-link:hover { text-decoration: underline; }
+
+/* Full-width login button */
+.btn-login {
+  width: 100%; height: 46px; background: var(--blue); color: #fff; border: none;
+  border-radius: var(--radius-xl); font-size: 14px; font-weight: 600;
+  letter-spacing: .03em; text-transform: uppercase; cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background .2s, transform .1s, box-shadow .2s;
+  box-shadow: 0 4px 14px rgba(37,99,235,.3); margin-bottom: 20px;
+}
+.btn-login:hover { background: var(--blue-dark); box-shadow: 0 6px 20px rgba(37,99,235,.4); }
+.btn-login:active { transform: scale(.98); }
+
+/* Register CTA at bottom */
+.login-register-cta {
+  text-align: center; font-size: 13px; color: var(--text-muted);
+  padding-top: 16px; border-top: 1px solid #f1f5f9;
+}
+.login-register-cta a {
+  color: var(--blue); font-weight: 600; text-decoration: none; margin-left: 4px;
+}
+.login-register-cta a:hover { text-decoration: underline; }
+
+/* ── Tab strip (for main panel header) ── */
+.screen-tabs {
+  display: flex; border-bottom: 1px solid var(--border);
+  flex-shrink: 0; background: #fff;
+}
+.screen-tab {
+  flex: 1; height: 52px; display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; letter-spacing: .02em; text-transform: uppercase;
+  color: var(--text-muted); cursor: pointer; position: relative;
+  border: none; background: none; font-family: 'Inter', sans-serif;
+  transition: color .2s;
+}
+.screen-tab.active { color: var(--blue); }
+.screen-tab.active::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 2.5px; background: var(--blue); border-radius: 2px 2px 0 0;
+}
+
 /* Agree */
 .agree-item { margin-bottom: 5px; }
 
@@ -381,13 +473,82 @@ body::before {
     </div>
     <div class="aside-bottom">
       <div class="aside-tagline" data-i18n="tagline">Join thousands of furniture professionals across Europe.</div>
-      <div class="aside-signin" data-i18n="signinText">Already have an account? <a href="#">Sign in</a></div>
+      <div class="aside-signin"><span data-i18n="signinText">Already have an account?</span> <a href="#" onclick="switchScreen('login');return false;" data-i18n="signinLink">Sign in</a></div>
     </div>
   </div>
 
-  <!-- Main form -->
+  <!-- Main panel -->
   <div class="main">
 
+    <!-- Tab strip -->
+    <div class="screen-tabs">
+      <button class="screen-tab active" id="tab-login" onclick="switchScreen('login')" data-i18n="tabLogin">Sign In</button>
+      <button class="screen-tab" id="tab-register" onclick="switchScreen('register')" data-i18n="tabRegister">Register</button>
+    </div>
+
+    <!-- ══ LOGIN SCREEN ══ -->
+    <div class="screen active" id="screen-login">
+      <div class="login-body">
+        <div class="login-heading">
+          <div class="login-title" data-i18n="loginTitle">Welcome back</div>
+          <div class="login-sub" data-i18n="loginSub">Sign in to your MyViyar account</div>
+        </div>
+
+        <!-- Social providers -->
+        <div class="social-row">
+          <button class="social-btn" onclick="void(0)">
+            <!-- Google -->
+            <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+            Google
+          </button>
+          <button class="social-btn" onclick="void(0)">
+            <!-- Apple -->
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            Apple
+          </button>
+          <button class="social-btn social-btn-full" onclick="void(0)">
+            <!-- Facebook -->
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Facebook
+          </button>
+        </div>
+
+        <div class="or-divider" data-i18n="orDivider">or continue with email</div>
+
+        <!-- Email / password fields -->
+        <div class="login-fields">
+          <div class="field">
+            <label data-i18n="email">E-mail</label>
+            <input type="email" id="li-email" placeholder="john@example.com" autocomplete="email">
+            <span class="ferr" id="li-e-email" data-i18n="errEmail">Enter a valid email address</span>
+          </div>
+          <div class="field">
+            <label data-i18n="password">Password</label>
+            <div class="pass-wrap">
+              <input type="password" id="li-pass" data-i18n-ph="passwordPh" placeholder="Your password" autocomplete="current-password">
+              <button class="pass-eye" type="button" onclick="togglePass('li-pass',this)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <span class="ferr" id="li-e-pass" data-i18n="errPass">Please enter your password</span>
+          </div>
+        </div>
+
+        <div class="forgot-row">
+          <a href="#" class="forgot-link" data-i18n="forgotPass">Forgot password?</a>
+        </div>
+
+        <button class="btn-login" id="btnLogin" onclick="doLogin()" data-i18n="loginBtn">Sign In</button>
+
+        <div class="login-register-cta">
+          <span data-i18n="noAccount">Don't have an account?</span>
+          <a href="#" onclick="switchScreen('register');return false;" data-i18n="createAccount">Create one</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ REGISTER SCREEN ══ -->
+    <div class="screen" id="screen-register">
     <div class="form-scroll" id="fs">
 
       <!-- 1. Personal -->
@@ -646,9 +807,10 @@ body::before {
       <div class="footer-note" data-i18n="footerNote">Required fields only. Your data is safe with us.</div>
       <button class="btn-sub" id="btnSub" onclick="submit()" data-i18n="submitBtn">Create account</button>
     </div>
-  </div>
+    </div><!-- /screen-register -->
+  </div><!-- /main -->
 
-</div>
+</div><!-- /page -->
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── i18n ── */
@@ -712,7 +874,13 @@ const LANGS = {
     stat3label:'Cities covered',
     stat4label:'Active markets',
     tagline:'Join thousands of furniture professionals across Europe.',
-    signinText:'Already have an account? <a href="#">Sign in</a>',
+    signinText:'Already have an account?', signinLink:'Sign in',
+    tabLogin:'Sign In', tabRegister:'Register',
+    loginTitle:'Welcome back', loginSub:'Sign in to your MyViyar account',
+    orDivider:'or continue with email',
+    forgotPass:'Forgot password?',
+    loginBtn:'Sign In', loginSuccess:'Signed in!',
+    noAccount:"Don't have an account?", createAccount:'Create one',
   },
   uk: {
     s1title:'Особисті дані', s1sub:'Розкажіть про себе',
@@ -773,7 +941,13 @@ const LANGS = {
     stat3label:'Міст охоплено',
     stat4label:'Активних ринків',
     tagline:'Приєднуйтесь до тисяч меблевих профі по всій Європі.',
-    signinText:'Вже маєте акаунт? <a href="#">Увійти</a>',
+    signinText:'Вже маєте акаунт?', signinLink:'Увійти',
+    tabLogin:'Вхід', tabRegister:'Реєстрація',
+    loginTitle:'З поверненням', loginSub:'Увійдіть до свого акаунту MyViyar',
+    orDivider:'або через email',
+    forgotPass:'Забули пароль?',
+    loginBtn:'Увійти', loginSuccess:'Вхід виконано!',
+    noAccount:'Немає акаунту?', createAccount:'Створити',
   },
   pl: {
     s1title:'Dane osobowe', s1sub:'Opowiedz nam o sobie',
@@ -834,7 +1008,13 @@ const LANGS = {
     stat3label:'Objętych miast',
     stat4label:'Aktywnych rynków',
     tagline:'Dołącz do tysięcy profesjonalistów branży meblarskiej w Europie.',
-    signinText:'Masz już konto? <a href="#">Zaloguj się</a>',
+    signinText:'Masz już konto?', signinLink:'Zaloguj się',
+    tabLogin:'Logowanie', tabRegister:'Rejestracja',
+    loginTitle:'Witaj ponownie', loginSub:'Zaloguj się do swojego konta MyViyar',
+    orDivider:'lub przez e-mail',
+    forgotPass:'Zapomniałeś hasła?',
+    loginBtn:'Zaloguj się', loginSuccess:'Zalogowano!',
+    noAccount:'Nie masz konta?', createAccount:'Utwórz je',
   }
 };
 
@@ -850,13 +1030,11 @@ function setLang(lang) {
   if (activeBtn) activeBtn.classList.add('active');
 
   // Update all data-i18n elements EXCEPT agree labels (they contain live links)
-  const skipIds = new Set(['agree-tos', 'agree-pp']);
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (t[key] === undefined) return;
-    // Skip chk-text spans that contain doc-links — they have live onclick handlers
     if (el.classList.contains('chk-text') && el.querySelector('.doc-link')) return;
-    el.innerHTML = t[key];
+    el.textContent = t[key];
   });
 
   // Manually update the agree label texts preserving working doc-links
@@ -903,7 +1081,33 @@ function setLang(lang) {
   });
 }
 
-/* ── scroll nav removed — single page ── */
+/* ── Screen switcher ── */
+function switchScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.screen-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+/* ── Login validation ── */
+function doLogin() {
+  const email = document.getElementById('li-email');
+  const pass  = document.getElementById('li-pass');
+  const eEmail = document.getElementById('li-e-email');
+  const ePass  = document.getElementById('li-e-pass');
+  let ok = true;
+  if (!email.value.trim() || !email.value.includes('@')) {
+    email.classList.add('err'); eEmail.style.display = 'block'; ok = false;
+  } else { email.classList.remove('err'); eEmail.style.display = 'none'; }
+  if (!pass.value.trim()) {
+    pass.classList.add('err'); ePass.style.display = 'block'; ok = false;
+  } else { pass.classList.remove('err'); ePass.style.display = 'none'; }
+  if (!ok) return;
+  const btn = document.getElementById('btnLogin');
+  btn.textContent = '✓ ' + (LANGS[currentLang].loginSuccess || 'Signed in!');
+  btn.style.background = '#10b981'; btn.disabled = true;
+}
+
 const fs = document.getElementById('fs');
 
 function openDoc(type) {
