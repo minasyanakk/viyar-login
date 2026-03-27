@@ -4,401 +4,306 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MyViyar — Register</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+:root {
+  --blue: #2563eb;
+  --blue-light: #eff6ff;
+  --blue-mid: #dbeafe;
+  --blue-dark: #1d4ed8;
+  --surface: #f8fafc;
+  --border: #e8edf3;
+  --border-strong: #cbd5e1;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --red: #ef4444;
+  --green: #10b981;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+}
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
-  min-height: 100%;
-  font-family: 'Roboto', sans-serif;
-  background: #eef1f6;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── Animated background ── */
+body {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding: 32px 16px;
-}
-
-.page {
-  width: 100%;
-  max-width: 960px;
-  display: grid;
-  grid-template-columns: 268px 1fr;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 12px 56px rgba(0,0,0,.14);
-  background: #fff;
-  min-height: 640px;
-}
-
-/* Sidebar */
-.aside {
+  padding: 24px 16px;
+  background: #c7d7f8;
   position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 65% 55% at 8% 12%,  rgba(99,102,241,.55) 0%, transparent 58%),
+    radial-gradient(ellipse 55% 50% at 92%  8%,  rgba(14,165,233,.5)  0%, transparent 55%),
+    radial-gradient(ellipse 50% 65% at 50% 95%,  rgba(139,92,246,.45) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 40% at 82% 62%,  rgba(20,184,166,.38) 0%, transparent 52%),
+    radial-gradient(ellipse 80% 70% at 28% 58%,  rgba(59,130,246,.3)  0%, transparent 65%);
+  animation: bgPulse 18s ease-in-out infinite alternate;
+}
+
+@keyframes bgPulse {
+  0%   { filter: hue-rotate(0deg)   brightness(1);    }
+  50%  { filter: hue-rotate(12deg)  brightness(1.04); }
+  100% { filter: hue-rotate(-8deg)  brightness(.97);  }
+}
+
+/* ── Page card ── */
+.page {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 980px;
+  height: calc(100vh - 48px);
+  max-height: 760px;
+  display: grid; grid-template-columns: 280px 1fr;
+  border-radius: var(--radius-xl);
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 32px 26px 32px;
-  background: linear-gradient(195deg, #007fe0 40%, #004080 100%);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.22),
+    0 8px 24px rgba(15,23,42,.18),
+    0 32px 80px rgba(15,23,42,.22);
+}
+
+/* ── Sidebar ── */
+.aside {
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 32px 26px;
+  background: linear-gradient(160deg, #1e3a8a 0%, #1d4ed8 55%, #3b82f6 100%);
 }
 .blobs { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
-.blob { position: absolute; border-radius: 50%; filter: blur(64px); }
-.b1 { width: 340px; height: 340px; background: #0092ff; opacity: .7; top: 60px; left: 20px; animation: b1 11s ease-in-out infinite alternate; }
-.b2 { width: 260px; height: 260px; background: #ffd400; opacity: .4; top: -40px; right: -60px; animation: b2 14s ease-in-out infinite alternate; }
-.b3 { width: 130px; height: 130px; background: #66bdff; opacity: .75; bottom: 100px; left: -20px; animation: b3 9s ease-in-out infinite alternate; }
-@keyframes b1 { to { transform: translate(-20px,70px); } }
-@keyframes b2 { to { transform: translate(10px,90px); } }
-@keyframes b3 { to { transform: translate(50px,-40px); } }
+.blob { position: absolute; border-radius: 50%; filter: blur(52px); }
+.b1 { width: 300px; height: 300px; background: #60a5fa; opacity: .2; top: -40px; left: -60px; animation: b1 14s ease-in-out infinite alternate; }
+.b2 { width: 200px; height: 200px; background: #a78bfa; opacity: .22; bottom: 40px; right: -50px; animation: b2 18s ease-in-out infinite alternate; }
+.b3 { width: 150px; height: 150px; background: #34d399; opacity: .13; top: 52%; left: 32%; animation: b3 11s ease-in-out infinite alternate; }
+@keyframes b1 { to { transform: translate(28px,55px) scale(1.08); } }
+@keyframes b2 { to { transform: translate(-18px,-38px) scale(1.12); } }
+@keyframes b3 { to { transform: translate(-28px,28px); } }
 
-.aside-top { position: relative; z-index: 1; }
-.aside-logo svg { width: 110px; display: block; }
+.aside-top { position: relative; z-index: 2; }
 
-.nav { margin-top: 40px; }
-.nav-item {
-  display: flex; align-items: center; gap: 12px;
-  padding: 9px 0; opacity: .4; transition: opacity .25s;
+/* Logo + lang row */
+.aside-logo-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px;
 }
+.aside-logo svg { width: 86px; display: block; }
+
+/* Lang switcher — in sidebar */
+.lang-switcher {
+  display: flex; align-items: center;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 8px; padding: 2px; gap: 1px;
+  flex-shrink: 0;
+}
+.lang-btn {
+  display: flex; align-items: center; gap: 3px;
+  padding: 3px 7px; font-size: 10px; font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  color: rgba(255,255,255,.5);
+  background: none; border: none; cursor: pointer;
+  border-radius: 6px; transition: all .15s;
+}
+.lang-btn.active { background: rgba(255,255,255,.92); color: #1d4ed8; }
+.lang-btn:not(.active):hover { background: rgba(255,255,255,.15); color: #fff; }
+.lang-flag { font-size: 11px; line-height: 1; }
+
+.nav { margin-top: 36px; }
+.nav-item { display: flex; align-items: center; gap: 12px; padding: 9px 0; opacity: .35; transition: opacity .3s; }
 .nav-item.active { opacity: 1; }
 .nav-item.done { opacity: .65; }
 .nav-dot {
   width: 28px; height: 28px; border-radius: 50%;
-  border: 2px solid rgba(255,255,255,.35);
+  border: 1.5px solid rgba(255,255,255,.22);
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0; font-size: 11px; font-weight: 600;
-  color: rgba(255,255,255,.55); transition: all .25s;
+  color: rgba(255,255,255,.4); transition: all .3s;
+  background: rgba(255,255,255,.07);
 }
-.nav-item.active .nav-dot { background: #fff; border-color: #fff; color: #006acc; }
-.nav-item.done .nav-dot { background: rgba(255,255,255,.2); border-color: rgba(255,255,255,.4); color: #fff; }
+.nav-item.active .nav-dot { background: rgba(255,255,255,.95); border-color: transparent; color: #1d4ed8; box-shadow: 0 2px 10px rgba(255,255,255,.22); }
+.nav-item.done .nav-dot { background: rgba(52,211,153,.14); border-color: rgba(52,211,153,.48); color: #34d399; }
 .nav-dot-check { display: none; }
 .nav-item.done .nav-dot-num { display: none; }
 .nav-item.done .nav-dot-check { display: block; }
-.nav-text-title { font-size: 13px; font-weight: 500; color: #fff; }
-.nav-text-sub { font-size: 11px; color: rgba(255,255,255,.55); margin-top: 1px; }
-.nav-line { width: 2px; height: 12px; background: rgba(255,255,255,.18); margin: 2px 0 2px 13px; border-radius: 1px; }
+.nav-text-title { font-size: 13px; font-weight: 500; color: #fff; letter-spacing: -.01em; }
+.nav-text-sub { font-size: 11px; color: rgba(255,255,255,.42); margin-top: 1px; }
+.nav-line { width: 1px; height: 13px; background: rgba(255,255,255,.14); margin: 2px 0 2px 13px; }
 
-.aside-bottom { position: relative; z-index: 1; }
-.aside-tagline { font-size: 13px; color: rgba(255,255,255,.5); line-height: 1.6; }
-.aside-signin { margin-top: 18px; font-size: 13px; color: rgba(255,255,255,.65); }
-.aside-signin a { color: #fff; font-weight: 600; text-decoration: none; }
-.aside-signin a:hover { text-decoration: underline; }
+.aside-bottom { position: relative; z-index: 2; }
+.aside-tagline { font-size: 12px; color: rgba(255,255,255,.42); line-height: 1.7; }
+.aside-signin { margin-top: 14px; font-size: 13px; color: rgba(255,255,255,.48); }
+.aside-signin a { color: #bfdbfe; font-weight: 500; text-decoration: none; transition: color .15s; }
+.aside-signin a:hover { color: #fff; }
 
-/* Main */
-.main { display: flex; flex-direction: column; min-height: 0; }
+/* ── Main panel ── */
+.main {
+  display: flex; flex-direction: column;
+  min-height: 0; overflow: hidden;
+  background: #fff;
+}
+
+/* Lang bar — hidden (moved to sidebar) */
+.lang-bar { display: none; }
+
 .form-scroll {
   flex: 1; overflow-y: auto;
-  padding: 32px 32px 20px;
-  scrollbar-width: thin; scrollbar-color: #ddd transparent;
+  padding: 24px 28px 16px;
+  scrollbar-width: thin; scrollbar-color: #e2e8f0 transparent;
 }
 .form-scroll::-webkit-scrollbar { width: 4px; }
-.form-scroll::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+.form-scroll::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 2px; }
 
-/* Section */
-.sec { margin-bottom: 28px; }
-.sec + .sec { padding-top: 24px; border-top: 1px solid #f0f0f0; }
-.sec-head { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
-.sec-icon {
-  width: 34px; height: 34px; border-radius: 9px;
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
-.sec-title { font-size: 14px; font-weight: 600; color: #1a1a1a; }
-.sec-sub { font-size: 11px; color: #a0a0a0; margin-top: 1px; }
+/* Sections */
+.sec { margin-bottom: 24px; }
+.sec + .sec { padding-top: 20px; border-top: 1px solid #f1f5f9; }
+.sec-head { display: flex; align-items: center; gap: 11px; margin-bottom: 16px; }
+.sec-icon { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.sec-title { font-size: 14px; font-weight: 600; color: var(--text-primary); letter-spacing: -.02em; }
+.sec-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 
 /* Fields */
 .row { display: grid; gap: 12px; margin-bottom: 12px; }
 .r2 { grid-template-columns: 1fr 1fr; }
 .r3 { grid-template-columns: 1fr 1fr 1fr; }
-
-.field { display: flex; flex-direction: column; gap: 4px; }
-.field label {
-  font-size: 11px; font-weight: 500;
-  color: #808080; letter-spacing: .3px; text-transform: uppercase;
-}
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label { font-size: 10px; font-weight: 600; color: var(--text-secondary); letter-spacing: .05em; text-transform: uppercase; }
 .field input, .field select {
-  height: 42px;
-  border: 1.5px solid #e2e2e2;
-  border-radius: 8px;
-  padding: 0 12px;
-  font-size: 14px; font-family: 'Roboto', sans-serif;
-  color: #1a1a1a; background: #fff; outline: none;
-  transition: border-color .18s, box-shadow .18s;
+  height: 40px; border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); padding: 0 12px;
+  font-size: 13px; font-family: 'Inter', sans-serif;
+  color: var(--text-primary); background: var(--surface); outline: none;
+  transition: border-color .18s, box-shadow .18s, background .18s;
   -webkit-appearance: none;
 }
-.field input:focus, .field select:focus {
-  border-color: #0080e0;
-  box-shadow: 0 0 0 3px rgba(0,128,224,.1);
-}
-.field input.err { border-color: #e24b4a; box-shadow: 0 0 0 3px rgba(226,75,74,.09); }
-.field select.err { border-color: #e24b4a; }
-.ferr { font-size: 11px; color: #e24b4a; display: none; }
+.field input:hover, .field select:hover { border-color: var(--border-strong); background: #fff; }
+.field input:focus, .field select:focus { border-color: var(--blue); background: #fff; box-shadow: 0 0 0 3px rgba(37,99,235,.1); }
+.field input.err { border-color: var(--red); box-shadow: 0 0 0 3px rgba(239,68,68,.07); }
+.field select.err { border-color: var(--red); }
+.ferr { font-size: 11px; color: var(--red); display: none; font-weight: 500; }
 
 .pass-wrap { position: relative; }
 .pass-wrap input { width: 100%; padding-right: 40px; }
-.pass-eye {
-  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-  background: none; border: none; cursor: pointer; color: #bbb;
-  display: flex; align-items: center; padding: 4px; transition: color .15s;
-}
-.pass-eye:hover { color: #555; }
+.pass-eye { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; padding: 3px; border-radius: 5px; transition: color .15s; }
+.pass-eye:hover { color: var(--text-secondary); }
 
-/* Custom checkbox */
-.chk {
-  display: flex; align-items: center; gap: 9px;
-  cursor: pointer; user-select: none;
-}
+/* Checkbox */
+.chk { display: flex; align-items: flex-start; gap: 9px; cursor: pointer; user-select: none; }
 .chk input { display: none; }
-.chk-box {
-  width: 18px; height: 18px; border-radius: 5px;
-  border: 2px solid #d0d0d0;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; background: #fff; transition: all .15s;
-}
-.chk input:checked + .chk-box { background: #0080e0; border-color: #0080e0; }
+.chk-box { width: 17px; height: 17px; border-radius: 5px; margin-top: 1px; border: 1.5px solid var(--border-strong); display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #fff; transition: all .15s; }
+.chk:hover .chk-box { border-color: var(--blue); }
+.chk input:checked + .chk-box { background: var(--blue); border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,.12); }
 .chk-box svg { display: none; }
 .chk input:checked + .chk-box svg { display: block; }
-.chk-text { font-size: 13px; color: #505050; line-height: 1.4; }
-.chk-text a { color: #0080e0; text-decoration: none; }
-.chk-text a:hover { text-decoration: underline; }
+.chk-text { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+.chk-text a, .doc-link { color: var(--blue); text-decoration: none; font-weight: 500; }
+.chk-text a:hover, .doc-link:hover { text-decoration: underline; }
 
-/* Chips — markets */
-.chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 0; }
-.chip {
-  display: flex; align-items: center; gap: 6px;
-  border: 1.5px solid #e8e8e8; border-radius: 8px;
-  padding: 6px 11px; cursor: pointer; user-select: none;
-  transition: all .15s; background: #fff;
-}
-.chip:hover { border-color: #a8d0f5; background: #f5fbff; }
-.chip.on { border-color: #0080e0; background: #eaf4ff; }
+/* Chips */
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chip { display: flex; align-items: center; gap: 5px; border: 1.5px solid var(--border); border-radius: 9px; padding: 5px 10px; cursor: pointer; user-select: none; transition: all .15s; background: var(--surface); font-family: 'Inter', sans-serif; }
+.chip:hover { border-color: #93c5fd; background: var(--blue-light); }
+.chip.on { border-color: var(--blue); background: var(--blue-light); box-shadow: 0 0 0 1px rgba(37,99,235,.12); }
 .chip input { display: none; }
-.chip-flag { font-size: 16px; line-height: 1; }
-.chip-lbl { font-size: 13px; font-weight: 500; color: #303030; }
-.chip.on .chip-lbl { color: #0060b8; }
+.chip-flag { font-size: 14px; line-height: 1; }
+.chip-lbl { font-size: 11px; font-weight: 500; color: var(--text-secondary); }
+.chip.on .chip-lbl { color: var(--blue); }
 
-/* Newsletter cards */
-.nl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.nl-card {
-  display: flex; align-items: center; gap: 10px;
-  border: 1.5px solid #e8e8e8; border-radius: 8px;
-  padding: 10px 12px; cursor: pointer; user-select: none;
-  transition: all .15s;
-}
-.nl-card:hover { border-color: #a8d0f5; }
-.nl-card.on { border-color: #0080e0; background: #eaf4ff; }
+/* Newsletter */
+.nl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.nl-card { display: flex; align-items: center; gap: 9px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 8px 11px; cursor: pointer; user-select: none; transition: all .15s; background: var(--surface); }
+.nl-card:hover { border-color: #93c5fd; background: var(--blue-light); }
+.nl-card.on { border-color: var(--blue); background: var(--blue-light); }
 .nl-card input { display: none; }
-.nl-icon {
-  width: 28px; height: 28px; border-radius: 7px;
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
-.nl-title { font-size: 13px; font-weight: 500; color: #303030; line-height: 1.2; }
-.nl-card.on .nl-title { color: #0060b8; }
-.nl-sub { font-size: 11px; color: #a0a0a0; margin-top: 2px; }
+.nl-icon { width: 26px; height: 26px; border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.nl-title { font-size: 11px; font-weight: 600; color: var(--text-primary); line-height: 1.2; }
+.nl-card.on .nl-title { color: var(--blue-dark); }
+.nl-sub { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
 
 /* Site chips */
-.site-chips { display: flex; flex-wrap: wrap; gap: 7px; }
-.site-chip {
-  display: flex; align-items: center; gap: 7px;
-  border: 1.5px solid #e8e8e8; border-radius: 8px;
-  padding: 6px 11px 6px 7px; cursor: pointer; user-select: none;
-  transition: all .15s; background: #fff;
-}
-.site-chip:hover { border-color: #a8d0f5; }
-.site-chip.on { border-color: #0080e0; background: #eaf4ff; }
+.site-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.site-chip { display: flex; align-items: center; gap: 6px; border: 1.5px solid var(--border); border-radius: 9px; padding: 4px 10px 4px 5px; cursor: pointer; user-select: none; transition: all .15s; background: var(--surface); }
+.site-chip:hover { border-color: #93c5fd; background: var(--blue-light); }
+.site-chip.on { border-color: var(--blue); background: var(--blue-light); }
 .site-chip input { display: none; }
-.s-badge {
-  width: 24px; height: 24px; border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 8px; font-weight: 700; color: #fff; flex-shrink: 0;
-}
-.s-name { font-size: 13px; font-weight: 500; color: #303030; }
-.site-chip.on .s-name { color: #0060b8; }
-
-.sel-all-btn {
-  font-size: 12px; color: #0080e0; background: none; border: none;
-  cursor: pointer; font-family: 'Roboto',sans-serif; font-weight: 500;
-  padding: 0; margin-bottom: 9px; display: block;
-}
+.s-badge { width: 22px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; color: #fff; flex-shrink: 0; }
+.s-name { font-size: 11px; font-weight: 500; color: var(--text-secondary); }
+.site-chip.on .s-name { color: var(--blue-dark); }
+.sel-all-btn { font-size: 11px; color: var(--blue); background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600; padding: 0; margin-bottom: 7px; display: block; }
 .sel-all-btn:hover { text-decoration: underline; }
-
-.inline-note { font-size: 12px; color: #a0a0a0; line-height: 1.5; margin-bottom: 8px; }
-
-/* Divider label */
-.dlbl {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 10px; font-weight: 600; letter-spacing: .7px;
-  text-transform: uppercase; color: #c0c0c0; margin-bottom: 10px;
-}
-.dlbl::before, .dlbl::after { content:''; flex: 1; height: 1px; background: #f0f0f0; }
+.inline-note { font-size: 11px; color: var(--text-muted); line-height: 1.6; margin-bottom: 7px; }
+.dlbl { display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+.dlbl::before, .dlbl::after { content:''; flex: 1; height: 1px; background: var(--border); }
 
 /* Footer */
-.form-footer {
-  padding: 14px 32px 22px;
-  border-top: 1px solid #f0f0f0;
-  display: flex; align-items: center;
-  justify-content: space-between; gap: 16px; flex-shrink: 0;
-}
-.footer-note { font-size: 12px; color: #c0c0c0; flex: 1; }
+.form-footer { padding: 12px 28px 18px; border-top: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-shrink: 0; }
+.footer-note { font-size: 11px; color: var(--text-muted); flex: 1; }
 .btn-sub {
-  background: #0080e0; color: #fff; border: none;
-  border-radius: 24px; padding: 13px 38px;
-  font-size: 14px; font-weight: 600; letter-spacing: .4px;
-  text-transform: uppercase; cursor: pointer;
-  transition: background .2s, transform .1s; white-space: nowrap;
+  background: var(--blue); color: #fff; border: none;
+  border-radius: var(--radius-xl); padding: 11px 32px;
+  font-size: 12px; font-weight: 600; letter-spacing: .04em;
+  text-transform: uppercase; cursor: pointer; font-family: 'Inter', sans-serif;
+  transition: background .2s, transform .1s, box-shadow .2s;
+  box-shadow: 0 3px 12px rgba(37,99,235,.3); white-space: nowrap;
 }
-.btn-sub:hover { background: #2a9af0; }
-.btn-sub:active { background: #0060c0; transform: scale(.98); }
-.btn-sub:disabled { background: #90bce0; cursor: default; transform: none; }
+.btn-sub:hover { background: var(--blue-dark); box-shadow: 0 5px 18px rgba(37,99,235,.4); }
+.btn-sub:active { transform: scale(.97); }
+.btn-sub:disabled { background: #93c5fd; box-shadow: none; cursor: default; }
 
-/* Expandable prefs panel */
-.prefs-panel {
-  overflow: hidden;
-  max-height: 0;
-  opacity: 0;
-  transition: max-height .4s ease, opacity .3s ease, margin .3s ease;
-  margin-top: 0;
-}
-.prefs-panel.open {
-  max-height: 1200px;
-  opacity: 1;
-  margin-top: 20px;
-}
-.prefs-notice {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  background: #fffbea;
-  border: 1px solid #fde68a;
-  border-radius: 8px;
-  padding: 10px 13px;
-  font-size: 13px;
-  color: #92400e;
-  line-height: 1.5;
-}
-.prefs-notice svg { flex-shrink: 0; margin-top: 1px; }
-.prefs-agree {
-  margin-top: 20px;
-  padding: 14px 16px;
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  border-radius: 8px;
-}
+/* Agree */
+.agree-item { margin-bottom: 5px; }
 
-/* Agree items */
-.agree-item { margin-bottom: 4px; }
-.doc-link { color: #0080e0; text-decoration: none; font-weight: 500; }
-.doc-link:hover { text-decoration: underline; }
-
-/* Document inline panel */
-.doc-panel {
-  overflow: hidden;
-  max-height: 0;
-  opacity: 0;
-  transition: max-height .35s ease, opacity .25s ease, margin .25s ease;
-  margin-top: 0;
-  border-radius: 10px;
-  border: 1.5px solid #e0ecf8;
-  background: #f8fbff;
-}
-.doc-panel.open {
-  max-height: 900px;
-  opacity: 1;
-  margin-top: 10px;
-  margin-bottom: 4px;
-}
-.doc-panel-head {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 16px 10px;
-  border-bottom: 1px solid #e0ecf8;
-}
-.doc-panel-title {
-  font-size: 13px; font-weight: 600; color: #1a3a5c;
-}
-.doc-close {
-  background: none; border: none; cursor: pointer;
-  color: #909090; display: flex; align-items: center;
-  padding: 4px; border-radius: 4px; transition: background .15s, color .15s;
-}
-.doc-close:hover { background: #eee; color: #303030; }
-.doc-panel-body {
-  padding: 14px 16px;
-  max-height: 520px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #c8d8e8 transparent;
-}
-.doc-panel-body p {
-  font-size: 13px; color: #4a5568; line-height: 1.65;
-  margin-bottom: 10px;
-}
+/* Doc panel */
+.doc-panel { overflow: hidden; max-height: 0; opacity: 0; transition: max-height .36s cubic-bezier(.4,0,.2,1), opacity .26s ease, margin .26s ease; margin-top: 0; border-radius: var(--radius-md); border: 1px solid var(--blue-mid); background: var(--blue-light); }
+.doc-panel.open { max-height: 700px; opacity: 1; margin-top: 8px; margin-bottom: 5px; }
+.doc-panel-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px 10px; border-bottom: 1px solid var(--blue-mid); }
+.doc-panel-title { font-size: 12px; font-weight: 700; color: var(--blue-dark); }
+.doc-close { background: none; border: none; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; padding: 4px; border-radius: 6px; transition: background .15s, color .15s; }
+.doc-close:hover { background: var(--blue-mid); color: var(--blue-dark); }
+.doc-panel-body { padding: 14px 16px; max-height: 380px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #bfdbfe transparent; }
+.doc-panel-body p { font-size: 12px; color: #334155; line-height: 1.65; margin-bottom: 10px; }
 .doc-panel-body p:last-child { margin-bottom: 0; }
-.doc-panel-footer {
-  padding: 12px 16px;
-  border-top: 1px solid #e0ecf8;
-  background: #edf5ff;
-  border-radius: 0 0 8px 8px;
-}
+.doc-panel-footer { padding: 10px 16px; border-top: 1px solid var(--blue-mid); background: rgba(37,99,235,.05); border-radius: 0 0 var(--radius-md) var(--radius-md); }
 
-/* Mini accordion (ppa) inside PP doc */
-.pp-prefs { margin-top: 16px; border-radius: 8px; overflow: hidden; border: 1px solid #dce8f4; }
-.ppa { border-bottom: 1px solid #dce8f4; }
+/* Mini accordion */
+.pp-prefs { margin-top: 14px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--blue-mid); }
+.ppa { border-bottom: 1px solid var(--blue-mid); }
 .ppa:last-child { border-bottom: none; }
-.ppa-head {
-  width: 100%; display: flex; align-items: center;
-  justify-content: space-between; padding: 10px 14px;
-  background: #f8fbff; border: none; cursor: pointer;
-  text-align: left; gap: 10px; transition: background .15s;
-}
-.ppa-head:hover { background: #eef6ff; }
-.ppa-head.open { background: #e8f2ff; }
-.ppa-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
-.ppa-num {
-  width: 22px; height: 22px; border-radius: 50%;
-  background: #0080e0; color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700; flex-shrink: 0;
-}
-.ppa-title { font-size: 13px; font-weight: 600; color: #1a3a5c; line-height: 1.2; }
-.ppa-sub { font-size: 11px; color: #27ae60; margin-top: 1px; }
-.ppa-sub.empty { color: #a0a0a0; }
-.ppa-arrow { flex-shrink: 0; transition: transform .2s ease; }
+.ppa-head { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; background: rgba(255,255,255,.8); border: none; cursor: pointer; text-align: left; gap: 8px; transition: background .15s; }
+.ppa-head:hover { background: #fff; }
+.ppa-head.open { background: #fff; }
+.ppa-left { display: flex; align-items: center; gap: 9px; flex: 1; min-width: 0; }
+.ppa-num { width: 20px; height: 20px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; flex-shrink: 0; }
+.ppa-title { font-size: 11px; font-weight: 600; color: var(--text-primary); line-height: 1.3; }
+.ppa-sub { font-size: 10px; color: var(--green); margin-top: 1px; font-weight: 500; }
+.ppa-sub.empty { color: var(--text-muted); font-weight: 400; }
+.ppa-arrow { flex-shrink: 0; color: var(--text-muted); transition: transform .2s ease; }
 .ppa-head.open .ppa-arrow { transform: rotate(180deg); }
-.ppa-body { border-top: 1px solid #dce8f4; background: #fff; }
+.ppa-body { border-top: 1px solid var(--blue-mid); background: #fff; }
 
-/* Lang switcher */
-.lang-bar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 12px 32px 0;
-  flex-shrink: 0;
-}
-.lang-switcher {
-  display: flex;
-  border: 1.5px solid #e8e8e8;
-  border-radius: 8px;
-  overflow: hidden;
-}
-.lang-btn {
-  display: flex; align-items: center; gap: 5px;
-  padding: 5px 11px;
-  font-size: 12px; font-weight: 600;
-  font-family: 'Roboto', sans-serif;
-  color: #909090;
-  background: none; border: none; cursor: pointer;
-  transition: background .15s, color .15s;
-  letter-spacing: .3px;
-}
-.lang-btn + .lang-btn { border-left: 1.5px solid #e8e8e8; }
-.lang-btn.active { background: #0080e0; color: #fff; }
-.lang-btn:not(.active):hover { background: #f5f5f5; color: #303030; }
-.lang-flag { font-size: 14px; line-height: 1; }
+.prefs-panel { display: none; }
+.prefs-notice, .prefs-agree { display: none; }
 
-/* Responsive */
-@media (max-width: 680px) {
-  body { padding: 0; }
-  .page { grid-template-columns: 1fr; border-radius: 0; }
-  .aside { min-height: 160px; padding: 24px 22px 22px; }
+@media (max-width: 700px) {
+  html, body { height: auto; overflow: auto; }
+  body { padding: 0; align-items: flex-start; }
+  .page { grid-template-columns: 1fr; border-radius: 0; height: auto; max-height: none; }
+  .aside { min-height: 160px; padding: 20px 20px; }
   .nav { display: none; }
-  .form-scroll { padding: 22px 18px 14px; }
-  .form-footer { padding: 12px 18px 18px; }
+  .form-scroll { padding: 18px 16px 12px; }
+  .form-footer { padding: 10px 16px 18px; }
   .r2, .r3 { grid-template-columns: 1fr; }
   .nl-grid { grid-template-columns: 1fr; }
 }
@@ -413,10 +318,17 @@ html, body {
       <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
     </div>
     <div class="aside-top">
-      <div class="aside-logo">
-        <svg viewBox="0 0 144 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <div class="aside-logo-row">
+        <div class="aside-logo">
+          <svg viewBox="0 0 144 64" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M48 8C48 8.79 47.77 9.56 47.33 10.22C46.89 10.88 46.26 11.39 45.53 11.7C44.8 11.99 43.99 12.08 43.22 11.92C42.44 11.77 41.73 11.39 41.17 10.83C40.61 10.27 40.23 9.56 40.08 8.78C39.92 8 40 7.2 40.3 6.47C40.61 5.74 41.12 5.11 41.78 4.67C42.44 4.23 43.21 4 44 4C45.06 4 46.08 4.42 46.83 5.17C47.58 5.92 48 6.94 48 8ZM40 16H48V48H44C42.94 48 41.92 47.58 41.17 46.83C40.42 46.08 40 45.06 40 44V16ZM27.2 16H36L22 48H18C16.83 48 15.69 47.66 14.71 47.02C13.74 46.38 12.97 45.47 12.5 44.4L0 16H8.8L18 37.02L27.2 16ZM112 16V18.88C109.74 17.03 106.92 16.01 104 16C99.76 16 95.69 17.69 92.69 20.69C89.69 23.69 88 27.76 88 32C88 36.24 89.69 40.31 92.69 43.31C95.69 46.31 99.76 48 104 48C106.98 47.98 109.86 46.92 112.14 45C112.36 45.86 112.86 46.62 113.56 47.16C114.26 47.7 115.12 48 116 48H120V16H112ZM104 40C102.42 40 100.87 39.53 99.56 38.65C98.24 37.77 97.21 36.52 96.61 35.06C96 33.6 95.85 31.99 96.15 30.44C96.46 28.89 97.22 27.46 98.34 26.34C99.46 25.22 100.89 24.46 102.44 24.15C103.99 23.85 105.6 24 107.06 24.61C108.52 25.21 109.77 26.24 110.65 27.56C111.53 28.87 112 30.42 112 32C112 34.12 111.16 36.16 109.66 37.66C108.16 39.16 106.12 40 104 40ZM140 16H144V24H140C137.88 24 135.84 24.84 134.34 26.34C132.84 27.84 132 29.88 132 32V48H128C126.94 48 125.92 47.58 125.17 46.83C124.42 46.08 124 45.06 124 44V16H132V18.88C134.26 17.03 137.08 16.01 140 16ZM88 16L69.88 57.3C69.53 58.1 68.96 58.79 68.23 59.27C67.49 59.75 66.64 60 65.76 60C65.12 60 64.5 59.87 63.92 59.6L60.7 58.18L65.6 47.08L52 16H60.8L70 37.02L79.2 16H88Z" fill="white"/>
         </svg>
+        </div>
+        <div class="lang-switcher">
+          <button class="lang-btn active" onclick="setLang('en')" id="lb-en"><span class="lang-flag">🇬🇧</span> EN</button>
+          <button class="lang-btn" onclick="setLang('uk')" id="lb-uk"><span class="lang-flag">🇺🇦</span> UA</button>
+          <button class="lang-btn" onclick="setLang('pl')" id="lb-pl"><span class="lang-flag">🇵🇱</span> PL</button>
+        </div>
       </div>
       <div class="nav">
         <div class="nav-item active" id="nav1">
@@ -452,20 +364,14 @@ html, body {
 
   <!-- Main form -->
   <div class="main">
-    <div class="lang-bar">
-      <div class="lang-switcher">
-        <button class="lang-btn active" onclick="setLang('en')" id="lb-en"><span class="lang-flag">🇬🇧</span> EN</button>
-        <button class="lang-btn" onclick="setLang('uk')" id="lb-uk"><span class="lang-flag">🇺🇦</span> UA</button>
-        <button class="lang-btn" onclick="setLang('pl')" id="lb-pl"><span class="lang-flag">🇵🇱</span> PL</button>
-      </div>
-    </div>
+
     <div class="form-scroll" id="fs">
 
       <!-- 1. Personal -->
       <div class="sec" id="sec1">
         <div class="sec-head">
-          <div class="sec-icon" style="background:#eaf4ff">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0080e0" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <div class="sec-icon" style="background:#eff6ff">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </div>
           <div><div class="sec-title" data-i18n="s1title">Personal info</div><div class="sec-sub" data-i18n="s1sub">Tell us who you are</div></div>
         </div>
@@ -505,8 +411,8 @@ html, body {
       <!-- 2. Account -->
       <div class="sec" id="sec2">
         <div class="sec-head">
-          <div class="sec-icon" style="background:#fff4e6">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <div class="sec-icon" style="background:#fef3c7">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           </div>
           <div><div class="sec-title" data-i18n="s2title">Account credentials</div><div class="sec-sub" data-i18n="s2sub">Your login details</div></div>
         </div>
@@ -549,7 +455,7 @@ html, body {
           <label class="chk agree-row">
             <input type="checkbox" id="agree-tos" onchange="onAgreeTosChange()">
             <div class="chk-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <span class="chk-text" data-i18n="agreeTosLabel">I agree to the <a href="#" class="doc-link" onclick="openDoc('tos');return false;" data-i18n-inner="tosLink">Terms of Service</a></span>
+            <span class="chk-text" id="tos-label">I agree to the <a href="#" class="doc-link">Terms of Service</a></span>
           </label>
           <span class="ferr" id="e-tos" data-i18n="errTos">Please accept the Terms of Service</span>
 
@@ -583,7 +489,7 @@ html, body {
           <label class="chk agree-row">
             <input type="checkbox" id="agree-pp" onchange="onAgreePpChange()">
             <div class="chk-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <span class="chk-text" data-i18n="agreePpLabel">I agree to the <a href="#" class="doc-link" onclick="openDoc('pp');return false;" data-i18n-inner="ppLink">Privacy Policy</a></span>
+            <span class="chk-text" id="pp-label">I agree to the <a href="#" class="doc-link">Privacy Policy</a></span>
           </label>
           <span class="ferr" id="e-pp" data-i18n="errPp">Please accept the Privacy Policy</span>
 
@@ -598,7 +504,7 @@ html, body {
             <div class="doc-panel-body">
               <p data-i18n="ppBody1">We collect personal information such as your name, email, phone number, and location to provide and improve our services. This data is used solely for operating the MyViyar platform and will not be sold to third parties.</p>
               <p data-i18n="ppBody2">With your explicit consent (configured below), your profile may be published on Viyar partner platforms to help potential customers find your business.</p>
-              <p data-i18n="ppBody3">You have the right to access, correct, or delete your personal data at any time from your account settings. For questions, contact support@viyar.pro.</p>
+              <p data-i18n="ppBody3">You have the right to access, correct, or delete your personal data at any time from your account settings. For questions, contact <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9cefe9ececf3eee8dceaf5e5fdeeb2eceef3">[email&#160;protected]</a>.</p>
 
               <!-- ── 3 pref accordions inside PP ── -->
               <div class="pp-prefs">
@@ -675,17 +581,17 @@ html, body {
                     <div class="nl-grid" style="padding:10px 14px 14px">
                       <label class="nl-card" onclick="toggleNl(this,'ppa3-sub')">
                         <input type="checkbox">
-                        <div class="nl-icon" style="background:#fff0e0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                        <div class="nl-icon" style="background:#fff0e0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
                         <div><div class="nl-title" data-i18n="nl1">Promotions</div><div class="nl-sub" data-i18n="nl1sub">Deals &amp; offers</div></div>
                       </label>
                       <label class="nl-card" onclick="toggleNl(this,'ppa3-sub')">
                         <input type="checkbox">
-                        <div class="nl-icon" style="background:#eaf4ff"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0080e0" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+                        <div class="nl-icon" style="background:#eff6ff"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
                         <div><div class="nl-title" data-i18n="nl2">News &amp; updates</div><div class="nl-sub" data-i18n="nl2sub">Announcements</div></div>
                       </label>
                       <label class="nl-card" onclick="toggleNl(this,'ppa3-sub')">
                         <input type="checkbox">
-                        <div class="nl-icon" style="background:#edf7ee"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#27ae60" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+                        <div class="nl-icon" style="background:#ecfdf5"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
                         <div><div class="nl-title" data-i18n="nl3">Tips &amp; insights</div><div class="nl-sub" data-i18n="nl3sub">Industry knowledge</div></div>
                       </label>
                       <label class="nl-card" onclick="toggleNl(this,'ppa3-sub')">
@@ -721,7 +627,7 @@ html, body {
 
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── i18n ── */
 const LANGS = {
   en: {
@@ -741,6 +647,8 @@ const LANGS = {
     agreeTosLabel:'I agree to the <a href="#" class="doc-link" onclick="openDoc(\'tos\');return false;">Terms of Service</a>',
     agreePpLabel:'I agree to the <a href="#" class="doc-link" onclick="openDoc(\'pp\');return false;">Privacy Policy</a>',
     tosLink:'Terms of Service', ppLink:'Privacy Policy',
+    agreeTosPrefix:'I agree to the ',
+    agreePpPrefix:'I agree to the ',
     tosTitle:'Terms of Service', ppTitle:'Privacy Policy',
     tosBody1:'By registering on MyViyar, you agree to use the platform in compliance with applicable laws. You are responsible for the accuracy of the information you provide and for maintaining the security of your account credentials.',
     tosBody2:'Viyar reserves the right to suspend or terminate accounts that violate these terms, including but not limited to fraudulent activity, misrepresentation, or misuse of the platform.',
@@ -791,6 +699,8 @@ const LANGS = {
     agreeTosLabel:'Я погоджуюсь з <a href="#" class="doc-link" onclick="openDoc(\'tos\');return false;">Умовами використання</a>',
     agreePpLabel:'Я погоджуюсь з <a href="#" class="doc-link" onclick="openDoc(\'pp\');return false;">Політикою конфіденційності</a>',
     tosLink:'Умови використання', ppLink:'Політика конфіденційності',
+    agreeTosPrefix:'Я погоджуюсь з ',
+    agreePpPrefix:'Я погоджуюсь з ',
     tosTitle:'Умови використання', ppTitle:'Політика конфіденційності',
     tosBody1:'Реєструючись на MyViyar, ви погоджуєтесь використовувати платформу відповідно до чинного законодавства. Ви несете відповідальність за достовірність наданої інформації та за збереження своїх облікових даних.',
     tosBody2:'Viyar залишає за собою право призупинити або видалити акаунти, які порушують ці умови, включаючи шахрайство, введення в оману або зловживання платформою.',
@@ -841,6 +751,8 @@ const LANGS = {
     agreeTosLabel:'Zgadzam się z <a href="#" class="doc-link" onclick="openDoc(\'tos\');return false;">Regulaminem</a>',
     agreePpLabel:'Zgadzam się z <a href="#" class="doc-link" onclick="openDoc(\'pp\');return false;">Polityką prywatności</a>',
     tosLink:'Regulamin', ppLink:'Polityka prywatności',
+    agreeTosPrefix:'Zgadzam się z ',
+    agreePpPrefix:'Zgadzam się z ',
     tosTitle:'Regulamin', ppTitle:'Polityka prywatności',
     tosBody1:'Rejestrując się w MyViyar, zgadzasz się na korzystanie z platformy zgodnie z obowiązującymi przepisami. Jesteś odpowiedzialny za dokładność podanych informacji oraz bezpieczeństwo swoich danych logowania.',
     tosBody2:'Viyar zastrzega sobie prawo do zawieszenia lub usunięcia kont naruszających niniejszy regulamin, w tym między innymi za oszustwa, wprowadzanie w błąd lub nadużywanie platformy.',
@@ -881,29 +793,64 @@ let currentLang = 'en';
 function setLang(lang) {
   currentLang = lang;
   const t = LANGS[lang];
-  // Update buttons
+
+  // Update lang buttons
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('lb-' + lang).classList.add('active');
-  // Update all data-i18n elements
+  const activeBtn = document.getElementById('lb-' + lang);
+  if (activeBtn) activeBtn.classList.add('active');
+
+  // Update all data-i18n elements EXCEPT agree labels (they contain live links)
+  const skipIds = new Set(['agree-tos', 'agree-pp']);
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if (t[key] !== undefined) el.innerHTML = t[key];
+    if (t[key] === undefined) return;
+    // Skip chk-text spans that contain doc-links — they have live onclick handlers
+    if (el.classList.contains('chk-text') && el.querySelector('.doc-link')) return;
+    el.innerHTML = t[key];
   });
-  // Re-bind doc links after innerHTML update (they lose event handlers)
-  document.querySelectorAll('.doc-link').forEach(a => {
-    const type = a.getAttribute('onclick') && a.getAttribute('onclick').includes('tos') ? 'tos' : 'pp';
-    a.onclick = (e) => { e.preventDefault(); openDoc(type); };
-  });
+
+  // Manually update the agree label texts preserving working doc-links
+  const tosSpan = document.getElementById('tos-label');
+  const ppSpan  = document.getElementById('pp-label');
+
+  if (tosSpan) {
+    tosSpan.innerHTML = '';
+    tosSpan.appendChild(document.createTextNode(t.agreeTosPrefix || 'I agree to the '));
+    const a1 = document.createElement('a');
+    a1.href = '#'; a1.className = 'doc-link';
+    a1.textContent = t.tosLink || 'Terms of Service';
+    a1.onclick = (e) => { e.preventDefault(); openDoc('tos'); };
+    tosSpan.appendChild(a1);
+  }
+
+  if (ppSpan) {
+    ppSpan.innerHTML = '';
+    ppSpan.appendChild(document.createTextNode(t.agreePpPrefix || 'I agree to the '));
+    const a2 = document.createElement('a');
+    a2.href = '#'; a2.className = 'doc-link';
+    a2.textContent = t.ppLink || 'Privacy Policy';
+    a2.onclick = (e) => { e.preventDefault(); openDoc('pp'); };
+    ppSpan.appendChild(a2);
+  }
+
   // Update placeholders
   document.querySelectorAll('[data-i18n-ph]').forEach(el => {
     const key = el.getAttribute('data-i18n-ph');
     if (t[key] !== undefined) el.placeholder = t[key];
   });
+
   // Update select first option
   const sel = document.getElementById('f3');
   if (sel && sel.options[0]) sel.options[0].text = t.selectOpt;
+
   // Update "select all" button state
   syncAllBtn();
+
+  // Update ppa-sub "not selected" labels that are currently empty
+  ['ppa1-sub','ppa2-sub','ppa3-sub'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.classList.contains('empty')) el.textContent = t.notSelected || 'Not selected';
+  });
 }
 
 /* ── scroll nav ── */
@@ -1112,15 +1059,25 @@ function submit() {
   if (!setErr('f8','e8', p.value !== p2.value || !p2.value)) ok = false;
 
   const tosCb = document.getElementById('agree-tos');
-  const ppCb = document.getElementById('agree-pp');
-  const eTos = document.getElementById('e-tos');
-  const ePp = document.getElementById('e-pp');
+  const ppCb  = document.getElementById('agree-pp');
+  const eTos  = document.getElementById('e-tos');
+  const ePp   = document.getElementById('e-pp');
 
-  if (!tosCb.checked) { eTos.style.display = 'block'; ok = false; openDoc('tos'); }
-  else eTos.style.display = 'none';
+  // TOS — must be checked
+  if (!tosCb.checked) {
+    eTos.style.display = 'block'; ok = false; openDoc('tos');
+  } else {
+    eTos.style.display = 'none';
+  }
 
-  if (!ppCb.checked) { ePp.style.display = 'block'; ok = false; if (tosCb.checked) openDoc('pp'); }
-  else ePp.style.display = 'none';
+  // PP — the final "I have read" checkbox must be checked
+  // (user can have any combination of preferences inside — at least the doc reviewed)
+  if (!ppCb.checked) {
+    ePp.style.display = 'block'; ok = false;
+    if (tosCb.checked) openDoc('pp');
+  } else {
+    ePp.style.display = 'none';
+  }
 
   if (!ok) {
     const firstErr = fs.querySelector('input.err, select.err');
@@ -1135,11 +1092,25 @@ function submit() {
 }
 
 // Init ppa subs as empty
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Mark ppa subs as empty
   ['ppa1-sub','ppa2-sub','ppa3-sub'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.add('empty');
   });
+
+  // Bind doc-links with proper handlers (no inline onclick needed)
+  const tosSpan = document.getElementById('tos-label');
+  const ppSpan  = document.getElementById('pp-label');
+  if (tosSpan) {
+    const a = tosSpan.querySelector('.doc-link');
+    if (a) a.onclick = (e) => { e.preventDefault(); openDoc('tos'); };
+  }
+  if (ppSpan) {
+    const a = ppSpan.querySelector('.doc-link');
+    if (a) a.onclick = (e) => { e.preventDefault(); openDoc('pp'); };
+  }
 });
 </script>
 </body>
