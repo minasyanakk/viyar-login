@@ -9,720 +9,1138 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
-  height: 100%;
+  min-height: 100%;
   font-family: 'Roboto', sans-serif;
-  background: #f0f2f5;
+  background: #eef1f6;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  padding: 32px 16px;
 }
 
-/* ── Modal shell ── */
-.modal {
-  width: 832px;
-  height: 704px;
-  display: flex;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 8px 48px rgba(32,32,32,.25);
-  background: #fff;
-}
-
-/* ── Left panel ── */
-.aside {
-  width: 320px;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-  border-radius: 16px 0 0 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 28px 32px;
-  background: linear-gradient(195deg, #007fe0 52%, #004080 100%);
-}
-.aside-blobs { position: absolute; inset: 0; pointer-events: none; }
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(70px);
-}
-.b1 { width: 380px; height: 380px; background: #0092ff; opacity: .75; top: 80px; left: 40px; animation: b1 10s ease-in-out infinite alternate; }
-.b2 { width: 300px; height: 300px; background: #ffd400; opacity: .45; top: -20px; right: -80px; animation: b2 13s ease-in-out infinite alternate; }
-.b3 { width: 120px; height: 120px; background: #66bdff; opacity: .8; bottom: 120px; left: -20px; animation: b3 8s ease-in-out infinite alternate; }
-@keyframes b1 { to { transform: translate(-30px, 60px); } }
-@keyframes b2 { to { transform: translate(20px, 100px); } }
-@keyframes b3 { to { transform: translate(40px, -50px); } }
-.aside-logo { position: relative; z-index: 2; }
-.aside-logo svg { width: 120px; }
-
-/* ── Right panel ── */
-.panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-/* nav tabs */
-.tabs {
-  display: flex;
-  border-bottom: 1px solid #e8e8e8;
-  flex-shrink: 0;
-  height: 56px;
-}
-.tab {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: .5px;
-  text-transform: uppercase;
-  color: #0080e0;
-  text-decoration: none;
-  cursor: pointer;
-  position: relative;
-}
-.tab.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0; right: 0;
-  height: 3px;
-  background: #0080e0;
-  border-radius: 2px 2px 0 0;
-}
-
-/* scrollable body */
-.body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 0 40px 24px;
-  scrollbar-width: thin;
-  scrollbar-color: #d0d0d0 transparent;
-}
-.body::-webkit-scrollbar { width: 4px; }
-.body::-webkit-scrollbar-thumb { background: #d0d0d0; border-radius: 2px; }
-
-/* steps */
-.step { display: none; }
-.step.active { display: block; }
-
-.step-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 24px 0 20px;
-}
-.step-header svg { width: 48px; height: 48px; flex-shrink: 0; }
-.step-header h2 {
-  font-size: 22px;
-  font-weight: 300;
-  color: #202020;
-  line-height: 1.2;
-}
-
-/* fields */
-.field { margin-bottom: 20px; }
-.field label {
-  display: block;
-  font-size: 12px;
-  color: #606060;
-  margin-bottom: 6px;
-  padding-left: 2px;
-}
-.field input,
-.field select {
+.page {
   width: 100%;
-  height: 48px;
-  border: 1px solid #c0c0c0;
-  border-radius: 6px;
-  padding: 0 14px;
-  font-size: 14px;
-  font-family: 'Roboto', sans-serif;
-  color: #202020;
+  max-width: 960px;
+  display: grid;
+  grid-template-columns: 268px 1fr;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 12px 56px rgba(0,0,0,.14);
   background: #fff;
-  outline: none;
-  transition: border-color .2s;
+  min-height: 640px;
+}
+
+/* Sidebar */
+.aside {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 32px 26px 32px;
+  background: linear-gradient(195deg, #007fe0 40%, #004080 100%);
+}
+.blobs { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.blob { position: absolute; border-radius: 50%; filter: blur(64px); }
+.b1 { width: 340px; height: 340px; background: #0092ff; opacity: .7; top: 60px; left: 20px; animation: b1 11s ease-in-out infinite alternate; }
+.b2 { width: 260px; height: 260px; background: #ffd400; opacity: .4; top: -40px; right: -60px; animation: b2 14s ease-in-out infinite alternate; }
+.b3 { width: 130px; height: 130px; background: #66bdff; opacity: .75; bottom: 100px; left: -20px; animation: b3 9s ease-in-out infinite alternate; }
+@keyframes b1 { to { transform: translate(-20px,70px); } }
+@keyframes b2 { to { transform: translate(10px,90px); } }
+@keyframes b3 { to { transform: translate(50px,-40px); } }
+
+.aside-top { position: relative; z-index: 1; }
+.aside-logo svg { width: 110px; display: block; }
+
+.nav { margin-top: 40px; }
+.nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 9px 0; opacity: .4; transition: opacity .25s;
+}
+.nav-item.active { opacity: 1; }
+.nav-item.done { opacity: .65; }
+.nav-dot {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.35);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 11px; font-weight: 600;
+  color: rgba(255,255,255,.55); transition: all .25s;
+}
+.nav-item.active .nav-dot { background: #fff; border-color: #fff; color: #006acc; }
+.nav-item.done .nav-dot { background: rgba(255,255,255,.2); border-color: rgba(255,255,255,.4); color: #fff; }
+.nav-dot-check { display: none; }
+.nav-item.done .nav-dot-num { display: none; }
+.nav-item.done .nav-dot-check { display: block; }
+.nav-text-title { font-size: 13px; font-weight: 500; color: #fff; }
+.nav-text-sub { font-size: 11px; color: rgba(255,255,255,.55); margin-top: 1px; }
+.nav-line { width: 2px; height: 12px; background: rgba(255,255,255,.18); margin: 2px 0 2px 13px; border-radius: 1px; }
+
+.aside-bottom { position: relative; z-index: 1; }
+.aside-tagline { font-size: 13px; color: rgba(255,255,255,.5); line-height: 1.6; }
+.aside-signin { margin-top: 18px; font-size: 13px; color: rgba(255,255,255,.65); }
+.aside-signin a { color: #fff; font-weight: 600; text-decoration: none; }
+.aside-signin a:hover { text-decoration: underline; }
+
+/* Main */
+.main { display: flex; flex-direction: column; min-height: 0; }
+.form-scroll {
+  flex: 1; overflow-y: auto;
+  padding: 32px 32px 20px;
+  scrollbar-width: thin; scrollbar-color: #ddd transparent;
+}
+.form-scroll::-webkit-scrollbar { width: 4px; }
+.form-scroll::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+
+/* Section */
+.sec { margin-bottom: 28px; }
+.sec + .sec { padding-top: 24px; border-top: 1px solid #f0f0f0; }
+.sec-head { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+.sec-icon {
+  width: 34px; height: 34px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.sec-title { font-size: 14px; font-weight: 600; color: #1a1a1a; }
+.sec-sub { font-size: 11px; color: #a0a0a0; margin-top: 1px; }
+
+/* Fields */
+.row { display: grid; gap: 12px; margin-bottom: 12px; }
+.r2 { grid-template-columns: 1fr 1fr; }
+.r3 { grid-template-columns: 1fr 1fr 1fr; }
+
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field label {
+  font-size: 11px; font-weight: 500;
+  color: #808080; letter-spacing: .3px; text-transform: uppercase;
+}
+.field input, .field select {
+  height: 42px;
+  border: 1.5px solid #e2e2e2;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 14px; font-family: 'Roboto', sans-serif;
+  color: #1a1a1a; background: #fff; outline: none;
+  transition: border-color .18s, box-shadow .18s;
   -webkit-appearance: none;
 }
-.field input:focus,
-.field select:focus { border-color: #0080e0; }
-.field input.err,
+.field input:focus, .field select:focus {
+  border-color: #0080e0;
+  box-shadow: 0 0 0 3px rgba(0,128,224,.1);
+}
+.field input.err { border-color: #e24b4a; box-shadow: 0 0 0 3px rgba(226,75,74,.09); }
 .field select.err { border-color: #e24b4a; }
+.ferr { font-size: 11px; color: #e24b4a; display: none; }
 
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
-.hint { font-size: 11px; color: #909090; margin-top: 4px; padding-left: 2px; }
-
-/* checkbox */
-.chk-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-.chk-row label {
-  font-size: 14px;
-  color: #606060;
-  cursor: pointer;
-  user-select: none;
-  line-height: 1.4;
-}
-.chk-row input[type=checkbox] {
-  width: 18px; height: 18px;
-  flex-shrink: 0;
-  cursor: pointer;
-  accent-color: #0080e0;
-}
-
-/* terms box */
-.terms-box {
-  background: #f6f8fa;
-  border: 1px solid #e8e8e8;
-  border-radius: 8px;
-  padding: 14px 16px;
-  margin-bottom: 16px;
-  font-size: 13px;
-  color: #606060;
-  line-height: 1.6;
-}
-.terms-box a { color: #0080e0; text-decoration: none; }
-.terms-box a:hover { text-decoration: underline; }
-
-/* market grid */
-.section-title {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .8px;
-  text-transform: uppercase;
-  color: #909090;
-  margin-bottom: 10px;
-  margin-top: 4px;
-}
-.market-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 24px;
-}
-.market-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 10px;
-  padding: 12px 14px;
-  cursor: pointer;
-  transition: border-color .18s, background .18s;
-  user-select: none;
-}
-.market-card:hover { border-color: #0080e0; }
-.market-card.sel { border-color: #0080e0; background: #e8f4ff; }
-.market-card input { display: none; }
-.market-card .flag { font-size: 22px; line-height: 1; }
-.market-card span { font-size: 14px; color: #303030; font-weight: 400; }
-
-/* site consent cards */
-.site-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 6px;
-}
-.site-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 10px;
-  padding: 12px 8px 10px;
-  cursor: pointer;
-  transition: border-color .18s, background .18s;
-  user-select: none;
-  text-align: center;
-}
-.site-card:hover { border-color: #0080e0; }
-.site-card.sel { border-color: #0080e0; background: #e8f4ff; }
-.site-card input { display: none; }
-.site-card .s-icon {
-  width: 32px; height: 32px;
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px;
-  font-weight: 700;
-  color: #fff;
-  flex-shrink: 0;
-}
-.site-card .s-domain {
-  font-size: 12px;
-  font-weight: 600;
-  color: #303030;
-  line-height: 1.2;
-}
-.site-card .s-desc {
-  font-size: 11px;
-  color: #909090;
-  line-height: 1.3;
-}
-.site-card.sel .s-domain { color: #0060b0; }
-.consent-note {
-  font-size: 11px;
-  color: #909090;
-  line-height: 1.5;
-  margin-bottom: 16px;
-  padding: 0 2px;
-}
-.select-all-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-.select-all-row span {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .8px;
-  text-transform: uppercase;
-  color: #909090;
-}
-.select-all-btn {
-  font-size: 12px;
-  color: #0080e0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
-}
-.select-all-btn:hover { text-decoration: underline; }
-
-/* footer */
-.footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 40px 20px;
-  border-top: 1px solid #f0f0f0;
-  flex-shrink: 0;
-}
-.progress {
-  display: flex;
-  gap: 5px;
-  flex: 1;
-}
-.bar {
-  height: 4px;
-  border-radius: 2px;
-  background: #e0e0e0;
-  flex: 1;
-  transition: background .3s;
-}
-.bar.on { background: #40e000; }
-
-.actions { display: flex; align-items: center; gap: 20px; }
-.btn-back {
-  font-size: 14px;
-  font-weight: 500;
-  color: #0080e0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  display: none;
-}
-.btn-next {
-  background: #0080e0;
-  color: #fff;
-  border: none;
-  border-radius: 24px;
-  padding: 13px 36px;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: .5px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background .2s;
-}
-.btn-next:hover { background: #2a9af0; }
-.btn-next:active { background: #005fbe; }
-
-.err-text {
-  font-size: 12px;
-  color: #e24b4a;
-  margin-top: 6px;
-  display: none;
-}
-
-/* pass wrapper */
 .pass-wrap { position: relative; }
-.pass-wrap input { padding-right: 44px; }
-.pass-toggle {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #909090;
-  padding: 4px;
+.pass-wrap input { width: 100%; padding-right: 40px; }
+.pass-eye {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; cursor: pointer; color: #bbb;
+  display: flex; align-items: center; padding: 4px; transition: color .15s;
+}
+.pass-eye:hover { color: #555; }
+
+/* Custom checkbox */
+.chk {
+  display: flex; align-items: center; gap: 9px;
+  cursor: pointer; user-select: none;
+}
+.chk input { display: none; }
+.chk-box {
+  width: 18px; height: 18px; border-radius: 5px;
+  border: 2px solid #d0d0d0;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; background: #fff; transition: all .15s;
+}
+.chk input:checked + .chk-box { background: #0080e0; border-color: #0080e0; }
+.chk-box svg { display: none; }
+.chk input:checked + .chk-box svg { display: block; }
+.chk-text { font-size: 13px; color: #505050; line-height: 1.4; }
+.chk-text a { color: #0080e0; text-decoration: none; }
+.chk-text a:hover { text-decoration: underline; }
+
+/* Chips — markets */
+.chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 0; }
+.chip {
+  display: flex; align-items: center; gap: 6px;
+  border: 1.5px solid #e8e8e8; border-radius: 8px;
+  padding: 6px 11px; cursor: pointer; user-select: none;
+  transition: all .15s; background: #fff;
+}
+.chip:hover { border-color: #a8d0f5; background: #f5fbff; }
+.chip.on { border-color: #0080e0; background: #eaf4ff; }
+.chip input { display: none; }
+.chip-flag { font-size: 16px; line-height: 1; }
+.chip-lbl { font-size: 13px; font-weight: 500; color: #303030; }
+.chip.on .chip-lbl { color: #0060b8; }
+
+/* Newsletter cards */
+.nl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.nl-card {
+  display: flex; align-items: center; gap: 10px;
+  border: 1.5px solid #e8e8e8; border-radius: 8px;
+  padding: 10px 12px; cursor: pointer; user-select: none;
+  transition: all .15s;
+}
+.nl-card:hover { border-color: #a8d0f5; }
+.nl-card.on { border-color: #0080e0; background: #eaf4ff; }
+.nl-card input { display: none; }
+.nl-icon {
+  width: 28px; height: 28px; border-radius: 7px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.nl-title { font-size: 13px; font-weight: 500; color: #303030; line-height: 1.2; }
+.nl-card.on .nl-title { color: #0060b8; }
+.nl-sub { font-size: 11px; color: #a0a0a0; margin-top: 2px; }
+
+/* Site chips */
+.site-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.site-chip {
+  display: flex; align-items: center; gap: 7px;
+  border: 1.5px solid #e8e8e8; border-radius: 8px;
+  padding: 6px 11px 6px 7px; cursor: pointer; user-select: none;
+  transition: all .15s; background: #fff;
+}
+.site-chip:hover { border-color: #a8d0f5; }
+.site-chip.on { border-color: #0080e0; background: #eaf4ff; }
+.site-chip input { display: none; }
+.s-badge {
+  width: 24px; height: 24px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.s-name { font-size: 13px; font-weight: 500; color: #303030; }
+.site-chip.on .s-name { color: #0060b8; }
+
+.sel-all-btn {
+  font-size: 12px; color: #0080e0; background: none; border: none;
+  cursor: pointer; font-family: 'Roboto',sans-serif; font-weight: 500;
+  padding: 0; margin-bottom: 9px; display: block;
+}
+.sel-all-btn:hover { text-decoration: underline; }
+
+.inline-note { font-size: 12px; color: #a0a0a0; line-height: 1.5; margin-bottom: 8px; }
+
+/* Divider label */
+.dlbl {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 10px; font-weight: 600; letter-spacing: .7px;
+  text-transform: uppercase; color: #c0c0c0; margin-bottom: 10px;
+}
+.dlbl::before, .dlbl::after { content:''; flex: 1; height: 1px; background: #f0f0f0; }
+
+/* Footer */
+.form-footer {
+  padding: 14px 32px 22px;
+  border-top: 1px solid #f0f0f0;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 16px; flex-shrink: 0;
+}
+.footer-note { font-size: 12px; color: #c0c0c0; flex: 1; }
+.btn-sub {
+  background: #0080e0; color: #fff; border: none;
+  border-radius: 24px; padding: 13px 38px;
+  font-size: 14px; font-weight: 600; letter-spacing: .4px;
+  text-transform: uppercase; cursor: pointer;
+  transition: background .2s, transform .1s; white-space: nowrap;
+}
+.btn-sub:hover { background: #2a9af0; }
+.btn-sub:active { background: #0060c0; transform: scale(.98); }
+.btn-sub:disabled { background: #90bce0; cursor: default; transform: none; }
+
+/* Expandable prefs panel */
+.prefs-panel {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height .4s ease, opacity .3s ease, margin .3s ease;
+  margin-top: 0;
+}
+.prefs-panel.open {
+  max-height: 1200px;
+  opacity: 1;
+  margin-top: 20px;
+}
+.prefs-notice {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  gap: 8px;
+  background: #fffbea;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  padding: 10px 13px;
+  font-size: 13px;
+  color: #92400e;
+  line-height: 1.5;
+}
+.prefs-notice svg { flex-shrink: 0; margin-top: 1px; }
+.prefs-agree {
+  margin-top: 20px;
+  padding: 14px 16px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
 }
 
-/* ── Responsive ── */
-@media (max-width: 860px) {
-  .modal { width: 100%; height: 100%; border-radius: 0; flex-direction: column; }
-  .aside { width: 100%; height: 160px; border-radius: 0; justify-content: flex-end; }
-  .aside-logo svg { width: 90px; }
-  .body { padding: 0 20px 16px; }
-  .footer { padding: 10px 20px 16px; }
-  .field-row { grid-template-columns: 1fr; gap: 0; }
-  .market-grid { grid-template-columns: repeat(2, 1fr); }
+/* Agree items */
+.agree-item { margin-bottom: 4px; }
+.doc-link { color: #0080e0; text-decoration: none; font-weight: 500; }
+.doc-link:hover { text-decoration: underline; }
+
+/* Document inline panel */
+.doc-panel {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height .35s ease, opacity .25s ease, margin .25s ease;
+  margin-top: 0;
+  border-radius: 10px;
+  border: 1.5px solid #e0ecf8;
+  background: #f8fbff;
+}
+.doc-panel.open {
+  max-height: 900px;
+  opacity: 1;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+.doc-panel-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid #e0ecf8;
+}
+.doc-panel-title {
+  font-size: 13px; font-weight: 600; color: #1a3a5c;
+}
+.doc-close {
+  background: none; border: none; cursor: pointer;
+  color: #909090; display: flex; align-items: center;
+  padding: 4px; border-radius: 4px; transition: background .15s, color .15s;
+}
+.doc-close:hover { background: #eee; color: #303030; }
+.doc-panel-body {
+  padding: 14px 16px;
+  max-height: 520px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #c8d8e8 transparent;
+}
+.doc-panel-body p {
+  font-size: 13px; color: #4a5568; line-height: 1.65;
+  margin-bottom: 10px;
+}
+.doc-panel-body p:last-child { margin-bottom: 0; }
+.doc-panel-footer {
+  padding: 12px 16px;
+  border-top: 1px solid #e0ecf8;
+  background: #edf5ff;
+  border-radius: 0 0 8px 8px;
+}
+
+/* Mini accordion (ppa) inside PP doc */
+.pp-prefs { margin-top: 16px; border-radius: 8px; overflow: hidden; border: 1px solid #dce8f4; }
+.ppa { border-bottom: 1px solid #dce8f4; }
+.ppa:last-child { border-bottom: none; }
+.ppa-head {
+  width: 100%; display: flex; align-items: center;
+  justify-content: space-between; padding: 10px 14px;
+  background: #f8fbff; border: none; cursor: pointer;
+  text-align: left; gap: 10px; transition: background .15s;
+}
+.ppa-head:hover { background: #eef6ff; }
+.ppa-head.open { background: #e8f2ff; }
+.ppa-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.ppa-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #0080e0; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; flex-shrink: 0;
+}
+.ppa-title { font-size: 13px; font-weight: 600; color: #1a3a5c; line-height: 1.2; }
+.ppa-sub { font-size: 11px; color: #27ae60; margin-top: 1px; }
+.ppa-sub.empty { color: #a0a0a0; }
+.ppa-arrow { flex-shrink: 0; transition: transform .2s ease; }
+.ppa-head.open .ppa-arrow { transform: rotate(180deg); }
+.ppa-body { border-top: 1px solid #dce8f4; background: #fff; }
+
+/* Lang switcher */
+.lang-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 12px 32px 0;
+  flex-shrink: 0;
+}
+.lang-switcher {
+  display: flex;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.lang-btn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 5px 11px;
+  font-size: 12px; font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+  color: #909090;
+  background: none; border: none; cursor: pointer;
+  transition: background .15s, color .15s;
+  letter-spacing: .3px;
+}
+.lang-btn + .lang-btn { border-left: 1.5px solid #e8e8e8; }
+.lang-btn.active { background: #0080e0; color: #fff; }
+.lang-btn:not(.active):hover { background: #f5f5f5; color: #303030; }
+.lang-flag { font-size: 14px; line-height: 1; }
+
+/* Responsive */
+@media (max-width: 680px) {
+  body { padding: 0; }
+  .page { grid-template-columns: 1fr; border-radius: 0; }
+  .aside { min-height: 160px; padding: 24px 22px 22px; }
+  .nav { display: none; }
+  .form-scroll { padding: 22px 18px 14px; }
+  .form-footer { padding: 12px 18px 18px; }
+  .r2, .r3 { grid-template-columns: 1fr; }
+  .nl-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
-<div class="modal">
+<div class="page">
 
-  <!-- LEFT -->
+  <!-- Sidebar -->
   <div class="aside">
-    <div class="aside-blobs">
-      <div class="blob b1"></div>
-      <div class="blob b2"></div>
-      <div class="blob b3"></div>
+    <div class="blobs">
+      <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
     </div>
-    <div class="aside-logo">
-      <svg viewBox="0 0 144 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M48 8C48 8.79 47.77 9.56 47.33 10.22C46.89 10.88 46.26 11.39 45.53 11.7C44.8 11.99 43.99 12.08 43.22 11.92C42.44 11.77 41.73 11.39 41.17 10.83C40.61 10.27 40.23 9.56 40.08 8.78C39.92 8 40 7.2 40.3 6.47C40.61 5.74 41.12 5.11 41.78 4.67C42.44 4.23 43.21 4 44 4C45.06 4 46.08 4.42 46.83 5.17C47.58 5.92 48 6.94 48 8ZM40 16H48V48H44C42.94 48 41.92 47.58 41.17 46.83C40.42 46.08 40 45.06 40 44V16ZM27.2 16H36L22 48H18C16.83 48 15.69 47.66 14.71 47.02C13.74 46.38 12.97 45.47 12.5 44.4L0 16H8.8L18 37.02L27.2 16ZM112 16V18.88C109.74 17.03 106.92 16.01 104 16C99.76 16 95.69 17.69 92.69 20.69C89.69 23.69 88 27.76 88 32C88 36.24 89.69 40.31 92.69 43.31C95.69 46.31 99.76 48 104 48C106.98 47.98 109.86 46.92 112.14 45C112.36 45.86 112.86 46.62 113.56 47.16C114.26 47.7 115.12 48 116 48H120V16H112ZM104 40C102.42 40 100.87 39.53 99.56 38.65C98.24 37.77 97.21 36.52 96.61 35.06C96 33.6 95.85 31.99 96.15 30.44C96.46 28.89 97.22 27.46 98.34 26.34C99.46 25.22 100.89 24.46 102.44 24.15C103.99 23.85 105.6 24 107.06 24.61C108.52 25.21 109.77 26.24 110.65 27.56C111.53 28.87 112 30.42 112 32C112 34.12 111.16 36.16 109.66 37.66C108.16 39.16 106.12 40 104 40ZM140 16H144V24H140C137.88 24 135.84 24.84 134.34 26.34C132.84 27.84 132 29.88 132 32V48H128C126.94 48 125.92 47.58 125.17 46.83C124.42 46.08 124 45.06 124 44V16H132V18.88C134.26 17.03 137.08 16.01 140 16ZM88 16L69.88 57.3C69.53 58.1 68.96 58.79 68.23 59.27C67.49 59.75 66.64 60 65.76 60C65.12 60 64.5 59.87 63.92 59.6L60.7 58.18L65.6 47.08L52 16H60.8L70 37.02L79.2 16H88Z" fill="white"/>
-      </svg>
+    <div class="aside-top">
+      <div class="aside-logo">
+        <svg viewBox="0 0 144 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M48 8C48 8.79 47.77 9.56 47.33 10.22C46.89 10.88 46.26 11.39 45.53 11.7C44.8 11.99 43.99 12.08 43.22 11.92C42.44 11.77 41.73 11.39 41.17 10.83C40.61 10.27 40.23 9.56 40.08 8.78C39.92 8 40 7.2 40.3 6.47C40.61 5.74 41.12 5.11 41.78 4.67C42.44 4.23 43.21 4 44 4C45.06 4 46.08 4.42 46.83 5.17C47.58 5.92 48 6.94 48 8ZM40 16H48V48H44C42.94 48 41.92 47.58 41.17 46.83C40.42 46.08 40 45.06 40 44V16ZM27.2 16H36L22 48H18C16.83 48 15.69 47.66 14.71 47.02C13.74 46.38 12.97 45.47 12.5 44.4L0 16H8.8L18 37.02L27.2 16ZM112 16V18.88C109.74 17.03 106.92 16.01 104 16C99.76 16 95.69 17.69 92.69 20.69C89.69 23.69 88 27.76 88 32C88 36.24 89.69 40.31 92.69 43.31C95.69 46.31 99.76 48 104 48C106.98 47.98 109.86 46.92 112.14 45C112.36 45.86 112.86 46.62 113.56 47.16C114.26 47.7 115.12 48 116 48H120V16H112ZM104 40C102.42 40 100.87 39.53 99.56 38.65C98.24 37.77 97.21 36.52 96.61 35.06C96 33.6 95.85 31.99 96.15 30.44C96.46 28.89 97.22 27.46 98.34 26.34C99.46 25.22 100.89 24.46 102.44 24.15C103.99 23.85 105.6 24 107.06 24.61C108.52 25.21 109.77 26.24 110.65 27.56C111.53 28.87 112 30.42 112 32C112 34.12 111.16 36.16 109.66 37.66C108.16 39.16 106.12 40 104 40ZM140 16H144V24H140C137.88 24 135.84 24.84 134.34 26.34C132.84 27.84 132 29.88 132 32V48H128C126.94 48 125.92 47.58 125.17 46.83C124.42 46.08 124 45.06 124 44V16H132V18.88C134.26 17.03 137.08 16.01 140 16ZM88 16L69.88 57.3C69.53 58.1 68.96 58.79 68.23 59.27C67.49 59.75 66.64 60 65.76 60C65.12 60 64.5 59.87 63.92 59.6L60.7 58.18L65.6 47.08L52 16H60.8L70 37.02L79.2 16H88Z" fill="white"/>
+        </svg>
+      </div>
+      <div class="nav">
+        <div class="nav-item active" id="nav1">
+          <div class="nav-dot">
+            <span class="nav-dot-num">1</span>
+            <svg class="nav-dot-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div><div class="nav-text-title" data-i18n="nav1title">Personal info</div><div class="nav-text-sub" data-i18n="nav1sub">Name, location, phone</div></div>
+        </div>
+        <div class="nav-line"></div>
+        <div class="nav-item" id="nav2">
+          <div class="nav-dot">
+            <span class="nav-dot-num">2</span>
+            <svg class="nav-dot-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div><div class="nav-text-title" data-i18n="nav2title">Account</div><div class="nav-text-sub" data-i18n="nav2sub">Email &amp; password</div></div>
+        </div>
+        <div class="nav-line"></div>
+        <div class="nav-item" id="nav3">
+          <div class="nav-dot">
+            <span class="nav-dot-num">3</span>
+            <svg class="nav-dot-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div><div class="nav-text-title" data-i18n="nav3title">Preferences</div><div class="nav-text-sub" data-i18n="nav3sub">Markets &amp; consent</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="aside-bottom">
+      <div class="aside-tagline" data-i18n="tagline">Join thousands of furniture professionals across Europe.</div>
+      <div class="aside-signin" data-i18n="signinText">Already have an account? <a href="#">Sign in</a></div>
     </div>
   </div>
 
-  <!-- RIGHT -->
-  <div class="panel">
-    <div class="tabs">
-      <div class="tab active">Register</div>
-      <a class="tab" href="#">Sign In</a>
-    </div>
-
-    <div class="body">
-
-      <!-- ── Step 1 ── -->
-      <div class="step active" id="s1">
-        <div class="step-header">
-          <svg viewBox="0 0 64 64" fill="none"><path opacity=".5" d="M32 35C26.93 35 23 28.01 23 22V20C23 15.04 27.04 11 32 11C36.96 11 41 15.04 41 20V22C41 28.01 37.07 35 32 35ZM28 53H56V47.13C56 44.88 55.06 42.72 53.39 41.21C49.42 37.64 44.56 35.05 39.18 33.82L32 41L28 37V53Z" fill="#60C0FF"/><path d="M20 57C26.63 57 32 51.63 32 45C32 38.37 26.63 33 20 33C13.37 33 8 38.37 8 45C8 51.63 13.37 57 20 57ZM17 40L19 38L26 45L19 52L17 50L22 45L17 40Z" fill="#60C0FF"/></svg>
-          <h2>Enter your details</h2>
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <label for="f1">First name</label>
-            <input type="text" id="f1" placeholder="John" autocomplete="given-name">
-          </div>
-          <div class="field">
-            <label for="f2">Last name</label>
-            <input type="text" id="f2" placeholder="Doe" autocomplete="family-name">
-          </div>
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="maker">
-          <label for="maker">Furniture maker</label>
-        </div>
-      </div>
-
-      <!-- ── Step 2 ── -->
-      <div class="step" id="s2">
-        <div class="step-header">
-          <svg viewBox="0 0 64 64" fill="none"><path opacity=".5" d="M32 52S20 39 20 28C20 21.37 25.37 16 32 16C38.63 16 44 21.37 44 28C44 39 32 52 32 52Z" fill="#60C0FF"/><circle cx="32" cy="28" r="5" fill="#60C0FF"/></svg>
-          <h2>Your location</h2>
-        </div>
-        <div class="field">
-          <label for="f3">Country</label>
-          <select id="f3">
-            <option value="">Select country…</option>
-            <option value="ua">🇺🇦 Ukraine</option>
-            <option value="pl">🇵🇱 Poland</option>
-            <option value="de">🇩🇪 Germany</option>
-            <option value="cz">🇨🇿 Czech Republic</option>
-            <option value="sk">🇸🇰 Slovakia</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="f4">City / Settlement</label>
-          <input type="text" id="f4" placeholder="e.g. Kyiv" autocomplete="address-level2">
-        </div>
-        <div class="field">
-          <label for="f5">Phone number</label>
-          <input type="tel" id="f5" placeholder="+380 00 000 0000" autocomplete="tel">
-        </div>
-      </div>
-
-      <!-- ── Step 3 ── -->
-      <div class="step" id="s3">
-        <div class="step-header">
-          <svg viewBox="0 0 64 64" fill="none"><path opacity=".5" d="M54 20H10C8.9 20 8 20.9 8 22V46C8 47.1 8.9 48 10 48H54C55.1 48 56 47.1 56 46V22C56 20.9 55.1 20 54 20Z" fill="#60C0FF"/><path d="M32 35L8 20H56L32 35Z" fill="#60C0FF"/></svg>
-          <h2>Account credentials</h2>
-        </div>
-        <div class="field">
-          <label for="f6">E-mail</label>
-          <input type="email" id="f6" placeholder="john@example.com" autocomplete="email">
-        </div>
-        <div class="field">
-          <label for="f7">Password</label>
-          <div class="pass-wrap">
-            <input type="password" id="f7" placeholder="At least 8 characters" autocomplete="new-password">
-            <button class="pass-toggle" type="button" onclick="togglePass('f7',this)" aria-label="Show password">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            </button>
-          </div>
-          <div class="hint">Minimum 8 characters</div>
-        </div>
-        <div class="field">
-          <label for="f8">Confirm password</label>
-          <div class="pass-wrap">
-            <input type="password" id="f8" placeholder="Repeat password" autocomplete="new-password">
-            <button class="pass-toggle" type="button" onclick="togglePass('f8',this)" aria-label="Show password">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            </button>
-          </div>
-        </div>
-        <div class="terms-box">
-          By creating an account you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="agree">
-          <label for="agree">I agree with all the terms and conditions</label>
-        </div>
-        <div class="err-text" id="err-agree">Please accept the terms to continue</div>
-      </div>
-
-      <!-- ── Step 4 — Preferences ── -->
-      <div class="step" id="s4">
-        <div class="step-header">
-          <svg viewBox="0 0 64 64" fill="none"><path opacity=".5" d="M8 12H56V48H8z" rx="4" fill="#60C0FF"/><path d="M16 24h32M16 32h20" stroke="#60C0FF" stroke-width="3" stroke-linecap="round"/></svg>
-          <h2>Your preferences</h2>
-        </div>
-
-        <div class="section-title">Markets you want to work with</div>
-        <div class="market-grid">
-          <label class="market-card" onclick="toggleCard(this)">
-            <input type="checkbox" value="ua">
-            <span class="flag">🇺🇦</span><span>Ukraine</span>
-          </label>
-          <label class="market-card" onclick="toggleCard(this)">
-            <input type="checkbox" value="pl">
-            <span class="flag">🇵🇱</span><span>Poland</span>
-          </label>
-          <label class="market-card" onclick="toggleCard(this)">
-            <input type="checkbox" value="de">
-            <span class="flag">🇩🇪</span><span>Germany</span>
-          </label>
-          <label class="market-card" onclick="toggleCard(this)">
-            <input type="checkbox" value="cz">
-            <span class="flag">🇨🇿</span><span>Czech Republic</span>
-          </label>
-          <label class="market-card" onclick="toggleCard(this)">
-            <input type="checkbox" value="eu">
-            <span class="flag">🇪🇺</span><span>EU region</span>
-          </label>
-          <label class="market-card" onclick="toggleCard(this)">
-            <input type="checkbox" value="world">
-            <span class="flag">🌍</span><span>Worldwide</span>
-          </label>
-        </div>
-
-        <div class="section-title">Newsletter</div>
-        <div class="chk-row">
-          <input type="checkbox" id="nl1">
-          <label for="nl1">Subscribe to promotions and special offers</label>
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="nl2">
-          <label for="nl2">Receive product news and updates</label>
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="nl3">
-          <label for="nl3">Tips and industry insights</label>
-        </div>
-
-        <div style="border-top: 1px solid #f0f0f0; margin: 20px 0 16px;"></div>
-
-        <div class="select-all-row">
-          <span>Data usage consent</span>
-          <button class="select-all-btn" type="button" onclick="toggleAllSites(this)">Select all</button>
-        </div>
-        <p class="consent-note">I allow Viyar to use my profile data (name, contacts, location) on the following platforms to show my business to potential customers:</p>
-
-        <div class="site-grid">
-          <label class="site-card" onclick="toggleSite(this)">
-            <input type="checkbox" value="viyar.ua">
-            <div class="s-icon" style="background:#0080e0">UA</div>
-            <div class="s-domain">viyar.ua</div>
-            <div class="s-desc">Ukrainian marketplace</div>
-          </label>
-          <label class="site-card" onclick="toggleSite(this)">
-            <input type="checkbox" value="viyar.pro">
-            <div class="s-icon" style="background:#005fbe">PRO</div>
-            <div class="s-domain">viyar.pro</div>
-            <div class="s-desc">Professional network</div>
-          </label>
-          <label class="site-card" onclick="toggleSite(this)">
-            <input type="checkbox" value="viyar.pl">
-            <div class="s-icon" style="background:#c0392b">PL</div>
-            <div class="s-domain">viyar.pl</div>
-            <div class="s-desc">Polish marketplace</div>
-          </label>
-          <label class="site-card" onclick="toggleSite(this)">
-            <input type="checkbox" value="viyar.de">
-            <div class="s-icon" style="background:#2c3e50">DE</div>
-            <div class="s-domain">viyar.de</div>
-            <div class="s-desc">German marketplace</div>
-          </label>
-          <label class="site-card" onclick="toggleSite(this)">
-            <input type="checkbox" value="viyar.eu">
-            <div class="s-icon" style="background:#27ae60">EU</div>
-            <div class="s-domain">viyar.eu</div>
-            <div class="s-desc">EU marketplace</div>
-          </label>
-          <label class="site-card" onclick="toggleSite(this)">
-            <input type="checkbox" value="myviyar.com">
-            <div class="s-icon" style="background:#8e44ad">MY</div>
-            <div class="s-domain">myviyar.com</div>
-            <div class="s-desc">Global platform</div>
-          </label>
-        </div>
-        <p class="consent-note" style="margin-top:8px">You can change these settings at any time in your profile.</p>
-      </div>
-
-    </div><!-- /body -->
-
-    <div class="footer">
-      <div class="progress" id="prog"></div>
-      <div class="actions">
-        <button class="btn-back" id="btnBack" onclick="back()">Return</button>
-        <button class="btn-next" id="btnNext" onclick="next()">Continue</button>
+  <!-- Main form -->
+  <div class="main">
+    <div class="lang-bar">
+      <div class="lang-switcher">
+        <button class="lang-btn active" onclick="setLang('en')" id="lb-en"><span class="lang-flag">🇬🇧</span> EN</button>
+        <button class="lang-btn" onclick="setLang('uk')" id="lb-uk"><span class="lang-flag">🇺🇦</span> UA</button>
+        <button class="lang-btn" onclick="setLang('pl')" id="lb-pl"><span class="lang-flag">🇵🇱</span> PL</button>
       </div>
     </div>
-  </div><!-- /panel -->
+    <div class="form-scroll" id="fs">
 
-</div><!-- /modal -->
+      <!-- 1. Personal -->
+      <div class="sec" id="sec1">
+        <div class="sec-head">
+          <div class="sec-icon" style="background:#eaf4ff">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0080e0" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div><div class="sec-title" data-i18n="s1title">Personal info</div><div class="sec-sub" data-i18n="s1sub">Tell us who you are</div></div>
+        </div>
+
+        <div class="row r2">
+          <div class="field"><label data-i18n="firstName">First name</label><input type="text" id="f1" data-i18n-ph="firstNamePh" placeholder="John" autocomplete="given-name"></div>
+          <div class="field"><label data-i18n="lastName">Last name</label><input type="text" id="f2" data-i18n-ph="lastNamePh" placeholder="Doe" autocomplete="family-name"></div>
+        </div>
+        <div class="row r2">
+          <div class="field">
+            <label data-i18n="country">Country</label>
+            <select id="f3">
+              <option value="" data-i18n="selectOpt">Select…</option>
+              <option value="ua">🇺🇦 Ukraine</option>
+              <option value="pl">🇵🇱 Poland</option>
+              <option value="de">🇩🇪 Germany</option>
+              <option value="cz">🇨🇿 Czech Republic</option>
+              <option value="sk">🇸🇰 Slovakia</option>
+              <option value="other" data-i18n="otherOpt">Other</option>
+            </select>
+          </div>
+          <div class="field"><label data-i18n="city">City / Settlement</label><input type="text" id="f4" data-i18n-ph="cityPh" placeholder="Kyiv" autocomplete="address-level2"></div>
+        </div>
+        <div class="row r2">
+          <div class="field"><label data-i18n="phone">Phone</label><input type="tel" id="f5" placeholder="+380 00 000 0000" autocomplete="tel"></div>
+          <div class="field" style="justify-content:flex-end">
+            <label style="visibility:hidden">_</label>
+            <label class="chk" style="height:42px">
+              <input type="checkbox" id="maker">
+              <div class="chk-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="chk-text" data-i18n="makerLabel">I am a furniture maker</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Account -->
+      <div class="sec" id="sec2">
+        <div class="sec-head">
+          <div class="sec-icon" style="background:#fff4e6">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div><div class="sec-title" data-i18n="s2title">Account credentials</div><div class="sec-sub" data-i18n="s2sub">Your login details</div></div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label data-i18n="email">E-mail</label>
+            <input type="email" id="f6" placeholder="john@example.com" autocomplete="email">
+            <span class="ferr" id="e6" data-i18n="errEmail">Enter a valid email address</span>
+          </div>
+        </div>
+        <div class="row r2">
+          <div class="field">
+            <label data-i18n="password">Password</label>
+            <div class="pass-wrap">
+              <input type="password" id="f7" data-i18n-ph="passwordPh" placeholder="Min. 8 characters" autocomplete="new-password">
+              <button class="pass-eye" type="button" onclick="togglePass('f7',this)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <span class="ferr" id="e7" data-i18n="errPass">At least 8 characters required</span>
+          </div>
+          <div class="field">
+            <label data-i18n="confirmPass">Confirm password</label>
+            <div class="pass-wrap">
+              <input type="password" id="f8" data-i18n-ph="confirmPassPh" placeholder="Repeat password" autocomplete="new-password">
+              <button class="pass-eye" type="button" onclick="togglePass('f8',this)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <span class="ferr" id="e8" data-i18n="errPass2">Passwords do not match</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terms + expandable preferences -->
+      <div class="sec" style="margin-bottom:0">
+
+        <!-- Agree row 1: Terms of Service -->
+        <div class="agree-item" id="ai-tos">
+          <label class="chk agree-row">
+            <input type="checkbox" id="agree-tos" onchange="onAgreeTosChange()">
+            <div class="chk-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span class="chk-text" data-i18n="agreeTosLabel">I agree to the <a href="#" class="doc-link" onclick="openDoc('tos');return false;" data-i18n-inner="tosLink">Terms of Service</a></span>
+          </label>
+          <span class="ferr" id="e-tos" data-i18n="errTos">Please accept the Terms of Service</span>
+
+          <!-- TOS expandable doc -->
+          <div class="doc-panel" id="doc-tos">
+            <div class="doc-panel-head">
+              <div class="doc-panel-title" data-i18n="tosTitle">Terms of Service</div>
+              <button class="doc-close" onclick="closeDoc('tos')" aria-label="Close">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+            <div class="doc-panel-body">
+              <p data-i18n="tosBody1">By registering on MyViyar, you agree to use the platform in compliance with applicable laws. You are responsible for the accuracy of the information you provide and for maintaining the security of your account credentials.</p>
+              <p data-i18n="tosBody2">Viyar reserves the right to suspend or terminate accounts that violate these terms, including but not limited to fraudulent activity, misrepresentation, or misuse of the platform.</p>
+              <p data-i18n="tosBody3">All content you publish on the platform remains your property. By submitting it, you grant Viyar a non-exclusive license to display it within the service.</p>
+            </div>
+            <div class="doc-panel-footer">
+              <label class="chk">
+                <input type="checkbox" id="doc-agree-tos" onchange="onDocAgree('tos')">
+                <div class="chk-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="chk-text" data-i18n="docAgreeTos">I have read and agree to the Terms of Service</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:10px"></div>
+
+        <!-- Agree row 2: Privacy Policy -->
+        <div class="agree-item" id="ai-pp">
+          <label class="chk agree-row">
+            <input type="checkbox" id="agree-pp" onchange="onAgreePpChange()">
+            <div class="chk-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span class="chk-text" data-i18n="agreePpLabel">I agree to the <a href="#" class="doc-link" onclick="openDoc('pp');return false;" data-i18n-inner="ppLink">Privacy Policy</a></span>
+          </label>
+          <span class="ferr" id="e-pp" data-i18n="errPp">Please accept the Privacy Policy</span>
+
+          <!-- PP expandable doc — contains 3 pref categories + agree -->
+          <div class="doc-panel" id="doc-pp">
+            <div class="doc-panel-head">
+              <div class="doc-panel-title" data-i18n="ppTitle">Privacy Policy</div>
+              <button class="doc-close" onclick="closeDoc('pp')" aria-label="Close">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+            <div class="doc-panel-body">
+              <p data-i18n="ppBody1">We collect personal information such as your name, email, phone number, and location to provide and improve our services. This data is used solely for operating the MyViyar platform and will not be sold to third parties.</p>
+              <p data-i18n="ppBody2">With your explicit consent (configured below), your profile may be published on Viyar partner platforms to help potential customers find your business.</p>
+              <p data-i18n="ppBody3">You have the right to access, correct, or delete your personal data at any time from your account settings. For questions, contact support@viyar.pro.</p>
+
+              <!-- ── 3 pref accordions inside PP ── -->
+              <div class="pp-prefs">
+
+                <!-- 1. Markets -->
+                <div class="ppa" id="ppa1">
+                  <button class="ppa-head" type="button" onclick="togglePpa('ppa1')">
+                    <div class="ppa-left">
+                      <div class="ppa-num">1</div>
+                      <div>
+                        <div class="ppa-title" data-i18n="marketsLabel">Markets you want to work with</div>
+                        <div class="ppa-sub" id="ppa1-sub" data-i18n="notSelected">Not selected</div>
+                      </div>
+                    </div>
+                    <svg class="ppa-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  <div class="ppa-body" id="ppa1-body">
+                    <div class="chips" style="padding:12px 14px 14px">
+                      <label class="chip" onclick="toggleChip(this,'ppa1-sub','markets')"><input type="checkbox" value="Ukraine"><span class="chip-flag">🇺🇦</span><span class="chip-lbl" data-i18n="mUA">Ukraine</span></label>
+                      <label class="chip" onclick="toggleChip(this,'ppa1-sub','markets')"><input type="checkbox" value="Poland"><span class="chip-flag">🇵🇱</span><span class="chip-lbl" data-i18n="mPL">Poland</span></label>
+                      <label class="chip" onclick="toggleChip(this,'ppa1-sub','markets')"><input type="checkbox" value="Germany"><span class="chip-flag">🇩🇪</span><span class="chip-lbl" data-i18n="mDE">Germany</span></label>
+                      <label class="chip" onclick="toggleChip(this,'ppa1-sub','markets')"><input type="checkbox" value="Czech Rep."><span class="chip-flag">🇨🇿</span><span class="chip-lbl" data-i18n="mCZ">Czech Rep.</span></label>
+                      <label class="chip" onclick="toggleChip(this,'ppa1-sub','markets')"><input type="checkbox" value="Slovakia"><span class="chip-flag">🇸🇰</span><span class="chip-lbl" data-i18n="mSK">Slovakia</span></label>
+                      <label class="chip" onclick="toggleChip(this,'ppa1-sub','markets')"><input type="checkbox" value="EU region"><span class="chip-flag">🇪🇺</span><span class="chip-lbl" data-i18n="mEU">EU region</span></label>
+                      <label class="chip" onclick="toggleChip(this,'ppa1-sub','markets')"><input type="checkbox" value="Worldwide"><span class="chip-flag">🌍</span><span class="chip-lbl" data-i18n="mWorld">Worldwide</span></label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 2. Viyar platforms -->
+                <div class="ppa" id="ppa2">
+                  <button class="ppa-head" type="button" onclick="togglePpa('ppa2')">
+                    <div class="ppa-left">
+                      <div class="ppa-num">2</div>
+                      <div>
+                        <div class="ppa-title" data-i18n="dataLabel">Data usage — Viyar platforms</div>
+                        <div class="ppa-sub" id="ppa2-sub" data-i18n="notSelected">Not selected</div>
+                      </div>
+                    </div>
+                    <svg class="ppa-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  <div class="ppa-body" id="ppa2-body" style="display:none">
+                    <div style="padding:10px 14px 14px">
+                      <p class="inline-note" style="margin-bottom:8px" data-i18n="dataNote">Allow Viyar to publish my profile on these platforms so clients can find me:</p>
+                      <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
+                        <button class="sel-all-btn" id="selAllBtn" type="button" onclick="toggleAllSites(this)" data-i18n="selAll">Select all platforms</button>
+                      </div>
+                      <div class="site-chips" id="sc">
+                        <label class="site-chip" onclick="toggleSite(this,'ppa2-sub')"><input type="checkbox" value="viyar.ua"><div class="s-badge" style="background:#0080e0">UA</div><span class="s-name">viyar.ua</span></label>
+                        <label class="site-chip" onclick="toggleSite(this,'ppa2-sub')"><input type="checkbox" value="viyar.pro"><div class="s-badge" style="background:#005fbe">PRO</div><span class="s-name">viyar.pro</span></label>
+                        <label class="site-chip" onclick="toggleSite(this,'ppa2-sub')"><input type="checkbox" value="viyar.pl"><div class="s-badge" style="background:#c0392b">PL</div><span class="s-name">viyar.pl</span></label>
+                        <label class="site-chip" onclick="toggleSite(this,'ppa2-sub')"><input type="checkbox" value="viyar.de"><div class="s-badge" style="background:#2c3e50">DE</div><span class="s-name">viyar.de</span></label>
+                        <label class="site-chip" onclick="toggleSite(this,'ppa2-sub')"><input type="checkbox" value="viyar.eu"><div class="s-badge" style="background:#27ae60">EU</div><span class="s-name">viyar.eu</span></label>
+                        <label class="site-chip" onclick="toggleSite(this,'ppa2-sub')"><input type="checkbox" value="viyar.cz"><div class="s-badge" style="background:#c0392b">CZ</div><span class="s-name">viyar.cz</span></label>
+                        <label class="site-chip" onclick="toggleSite(this,'ppa2-sub')"><input type="checkbox" value="myviyar.com"><div class="s-badge" style="background:#8e44ad">MY</div><span class="s-name">myviyar.com</span></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 3. Newsletter -->
+                <div class="ppa" id="ppa3">
+                  <button class="ppa-head" type="button" onclick="togglePpa('ppa3')">
+                    <div class="ppa-left">
+                      <div class="ppa-num">3</div>
+                      <div>
+                        <div class="ppa-title" data-i18n="nlLabel">Newsletter</div>
+                        <div class="ppa-sub" id="ppa3-sub" data-i18n="notSelected">Not selected</div>
+                      </div>
+                    </div>
+                    <svg class="ppa-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  <div class="ppa-body" id="ppa3-body" style="display:none">
+                    <div class="nl-grid" style="padding:10px 14px 14px">
+                      <label class="nl-card" onclick="toggleNl(this,'ppa3-sub')">
+                        <input type="checkbox">
+                        <div class="nl-icon" style="background:#fff0e0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                        <div><div class="nl-title" data-i18n="nl1">Promotions</div><div class="nl-sub" data-i18n="nl1sub">Deals &amp; offers</div></div>
+                      </label>
+                      <label class="nl-card" onclick="toggleNl(this,'ppa3-sub')">
+                        <input type="checkbox">
+                        <div class="nl-icon" style="background:#eaf4ff"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0080e0" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+                        <div><div class="nl-title" data-i18n="nl2">News &amp; updates</div><div class="nl-sub" data-i18n="nl2sub">Announcements</div></div>
+                      </label>
+                      <label class="nl-card" onclick="toggleNl(this,'ppa3-sub')">
+                        <input type="checkbox">
+                        <div class="nl-icon" style="background:#edf7ee"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#27ae60" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+                        <div><div class="nl-title" data-i18n="nl3">Tips &amp; insights</div><div class="nl-sub" data-i18n="nl3sub">Industry knowledge</div></div>
+                      </label>
+                      <label class="nl-card" onclick="toggleNl(this,'ppa3-sub')">
+                        <input type="checkbox">
+                        <div class="nl-icon" style="background:#f5eeff"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8e44ad" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                        <div><div class="nl-title" data-i18n="nl4">Events</div><div class="nl-sub" data-i18n="nl4sub">Webinars &amp; fairs</div></div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+              </div><!-- /pp-prefs -->
+            </div>
+            <div class="doc-panel-footer">
+              <label class="chk">
+                <input type="checkbox" id="doc-agree-pp" onchange="onDocAgree('pp')">
+                <div class="chk-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="chk-text" data-i18n="docAgreePp">I have read and agree to the Privacy Policy</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="form-footer">
+      <div class="footer-note" data-i18n="footerNote">Required fields only. Your data is safe with us.</div>
+      <button class="btn-sub" id="btnSub" onclick="submit()" data-i18n="submitBtn">Create account</button>
+    </div>
+  </div>
+
+</div>
 
 <script>
-let cur = 1;
-const maxNormal = 3;
-
-function render() {
-  // show step
-  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-  document.getElementById('s' + cur).classList.add('active');
-
-  // back button
-  document.getElementById('btnBack').style.display = cur > 1 ? 'inline' : 'none';
-
-  // next label
-  const isLast = (cur === maxNormal && document.getElementById('agree').checked) || cur === 4;
-  document.getElementById('btnNext').textContent = (cur === maxNormal || cur === 4) ? 'Submit' : 'Continue';
-
-  // progress bars
-  const total = cur === 4 ? 4 : maxNormal;
-  const prog = document.getElementById('prog');
-  prog.innerHTML = '';
-  for (let i = 1; i <= total; i++) {
-    const d = document.createElement('div');
-    d.className = 'bar' + (i <= cur ? ' on' : '');
-    prog.appendChild(d);
+/* ── i18n ── */
+const LANGS = {
+  en: {
+    s1title:'Personal info', s1sub:'Tell us who you are',
+    firstName:'First name', firstNamePh:'John',
+    lastName:'Last name', lastNamePh:'Doe',
+    country:'Country', selectOpt:'Select…', otherOpt:'Other',
+    city:'City / Settlement', cityPh:'Kyiv',
+    phone:'Phone', makerLabel:'I am a furniture maker',
+    s2title:'Account credentials', s2sub:'Your login details',
+    email:'E-mail', password:'Password', passwordPh:'Min. 8 characters',
+    confirmPass:'Confirm password', confirmPassPh:'Repeat password',
+    errEmail:'Enter a valid email address',
+    errPass:'At least 8 characters required',
+    errPass2:'Passwords do not match',
+    agreeLabel:'I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>',
+    agreeTosLabel:'I agree to the <a href="#" class="doc-link" onclick="openDoc(\'tos\');return false;">Terms of Service</a>',
+    agreePpLabel:'I agree to the <a href="#" class="doc-link" onclick="openDoc(\'pp\');return false;">Privacy Policy</a>',
+    tosLink:'Terms of Service', ppLink:'Privacy Policy',
+    tosTitle:'Terms of Service', ppTitle:'Privacy Policy',
+    tosBody1:'By registering on MyViyar, you agree to use the platform in compliance with applicable laws. You are responsible for the accuracy of the information you provide and for maintaining the security of your account credentials.',
+    tosBody2:'Viyar reserves the right to suspend or terminate accounts that violate these terms, including but not limited to fraudulent activity, misrepresentation, or misuse of the platform.',
+    tosBody3:'All content you publish on the platform remains your property. By submitting it, you grant Viyar a non-exclusive license to display it within the service.',
+    ppBody1:'We collect personal information such as your name, email, phone number, and location to provide and improve our services. This data is used solely for operating the MyViyar platform and will not be sold to third parties.',
+    ppBody2:'With your explicit consent (configured during registration), your profile may be published on Viyar partner platforms to help potential customers find your business.',
+    ppBody3:'You have the right to access, correct, or delete your personal data at any time from your account settings. For questions, contact support@viyar.pro.',
+    docAgreeTos:'I have read and agree to the Terms of Service',
+    docAgreePp:'I have read and agree to the Privacy Policy',
+    errTerms:'Please accept the terms to continue',
+    errTos:'Please accept the Terms of Service',
+    errPp:'Please accept the Privacy Policy',
+    prefsNotice:'Before agreeing, please review and configure your preferences below.',
+    marketsLabel:'Markets you want to work with',
+    mUA:'Ukraine', mPL:'Poland', mDE:'Germany', mCZ:'Czech Rep.', mSK:'Slovakia', mEU:'EU region', mWorld:'Worldwide',
+    nlLabel:'Newsletter',
+    nl1:'Promotions', nl1sub:'Deals & offers',
+    nl2:'News & updates', nl2sub:'Announcements',
+    nl3:'Tips & insights', nl3sub:'Industry knowledge',
+    nl4:'Events', nl4sub:'Webinars & fairs',
+    dataLabel:'Data usage — Viyar platforms',
+    dataNote:'Allow Viyar to publish my profile on these platforms so clients can find me:',
+    selAll:'Select all platforms', deselectAll:'Deselect all',
+    agree2Label:'I have reviewed the preferences and agree to all terms',
+    notSelected:'Not selected',
+    footerNote:'Required fields only. Your data is safe with us.',
+    submitBtn:'Create account', successBtn:'✓ Account created!',
+    nav1title:'Personal info', nav1sub:'Name, location, phone',
+    nav2title:'Account', nav2sub:'Email & password',
+    nav3title:'Preferences', nav3sub:'Markets & consent',
+    tagline:'Join thousands of furniture professionals across Europe.',
+    signinText:'Already have an account? <a href="#">Sign in</a>',
+  },
+  uk: {
+    s1title:'Особисті дані', s1sub:'Розкажіть про себе',
+    firstName:'Ім\'я', firstNamePh:'Іван',
+    lastName:'Прізвище', lastNamePh:'Петренко',
+    country:'Країна', selectOpt:'Оберіть…', otherOpt:'Інша',
+    city:'Місто / Населений пункт', cityPh:'Київ',
+    phone:'Телефон', makerLabel:'Я виробник меблів',
+    s2title:'Дані акаунту', s2sub:'Ваші дані для входу',
+    email:'Електронна пошта', password:'Пароль', passwordPh:'Мін. 8 символів',
+    confirmPass:'Підтвердіть пароль', confirmPassPh:'Повторіть пароль',
+    errEmail:'Введіть дійсну електронну адресу',
+    errPass:'Необхідно щонайменше 8 символів',
+    errPass2:'Паролі не збігаються',
+    agreeLabel:'Я погоджуюсь з <a href="#">Умовами використання</a> та <a href="#">Політикою конфіденційності</a>',
+    agreeTosLabel:'Я погоджуюсь з <a href="#" class="doc-link" onclick="openDoc(\'tos\');return false;">Умовами використання</a>',
+    agreePpLabel:'Я погоджуюсь з <a href="#" class="doc-link" onclick="openDoc(\'pp\');return false;">Політикою конфіденційності</a>',
+    tosLink:'Умови використання', ppLink:'Політика конфіденційності',
+    tosTitle:'Умови використання', ppTitle:'Політика конфіденційності',
+    tosBody1:'Реєструючись на MyViyar, ви погоджуєтесь використовувати платформу відповідно до чинного законодавства. Ви несете відповідальність за достовірність наданої інформації та за збереження своїх облікових даних.',
+    tosBody2:'Viyar залишає за собою право призупинити або видалити акаунти, які порушують ці умови, включаючи шахрайство, введення в оману або зловживання платформою.',
+    tosBody3:'Весь контент, який ви публікуєте на платформі, залишається вашою власністю. Надсилаючи його, ви надаєте Viyar невиключну ліцензію на відображення в рамках сервісу.',
+    ppBody1:'Ми збираємо особисті дані, такі як ім\'я, електронна пошта, номер телефону та місцезнаходження, для надання та покращення наших послуг. Ці дані використовуються виключно для роботи платформи MyViyar і не продаються третім сторонам.',
+    ppBody2:'За вашою явною згодою (налаштованою під час реєстрації) ваш профіль може бути опублікований на партнерських платформах Viyar, щоб потенційні клієнти могли вас знайти.',
+    ppBody3:'Ви маєте право в будь-який час отримати доступ, виправити або видалити свої персональні дані в налаштуваннях акаунту. З питаннями звертайтесь: support@viyar.pro.',
+    docAgreeTos:'Я прочитав і погоджуюсь з Умовами використання',
+    docAgreePp:'Я прочитав і погоджуюсь з Політикою конфіденційності',
+    errTerms:'Будь ласка, погодьтесь з умовами для продовження',
+    errTos:'Будь ласка, погодьтесь з Умовами використання',
+    errPp:'Будь ласка, погодьтесь з Політикою конфіденційності',
+    prefsNotice:'Перед тим як погодитись, будь ласка, перегляньте та налаштуйте свої вподобання нижче.',
+    marketsLabel:'Ринки, на яких ви хочете працювати',
+    mUA:'Україна', mPL:'Польща', mDE:'Німеччина', mCZ:'Чехія', mSK:'Словаччина', mEU:'Регіон ЄС', mWorld:'Весь світ',
+    nlLabel:'Розсилка',
+    nl1:'Акції', nl1sub:'Знижки та пропозиції',
+    nl2:'Новини', nl2sub:'Оголошення',
+    nl3:'Поради', nl3sub:'Галузеві знання',
+    nl4:'Події', nl4sub:'Вебінари та виставки',
+    dataLabel:'Згода на використання даних — платформи Viyar',
+    dataNote:'Дозволяю Viyar публікувати мій профіль на цих платформах, щоб клієнти могли мене знайти:',
+    selAll:'Обрати всі платформи', deselectAll:'Скасувати вибір',
+    agree2Label:'Я ознайомився з вподобаннями і погоджуюсь з усіма умовами',
+    notSelected:'Не вибрано',
+    footerNote:'Лише обов\'язкові поля. Ваші дані захищені.',
+    submitBtn:'Створити акаунт', successBtn:'✓ Акаунт створено!',
+    nav1title:'Особисті дані', nav1sub:'Ім\'я, місто, телефон',
+    nav2title:'Акаунт', nav2sub:'Пошта та пароль',
+    nav3title:'Вподобання', nav3sub:'Ринки та згода',
+    tagline:'Приєднуйтесь до тисяч меблевих профі по всій Європі.',
+    signinText:'Вже маєте акаунт? <a href="#">Увійти</a>',
+  },
+  pl: {
+    s1title:'Dane osobowe', s1sub:'Opowiedz nam o sobie',
+    firstName:'Imię', firstNamePh:'Jan',
+    lastName:'Nazwisko', lastNamePh:'Kowalski',
+    country:'Kraj', selectOpt:'Wybierz…', otherOpt:'Inny',
+    city:'Miasto / Miejscowość', cityPh:'Warszawa',
+    phone:'Telefon', makerLabel:'Jestem producentem mebli',
+    s2title:'Dane konta', s2sub:'Twoje dane logowania',
+    email:'E-mail', password:'Hasło', passwordPh:'Min. 8 znaków',
+    confirmPass:'Potwierdź hasło', confirmPassPh:'Powtórz hasło',
+    errEmail:'Podaj prawidłowy adres e-mail',
+    errPass:'Wymagane co najmniej 8 znaków',
+    errPass2:'Hasła nie są zgodne',
+    agreeLabel:'Zgadzam się z <a href="#">Regulaminem</a> i <a href="#">Polityką prywatności</a>',
+    agreeTosLabel:'Zgadzam się z <a href="#" class="doc-link" onclick="openDoc(\'tos\');return false;">Regulaminem</a>',
+    agreePpLabel:'Zgadzam się z <a href="#" class="doc-link" onclick="openDoc(\'pp\');return false;">Polityką prywatności</a>',
+    tosLink:'Regulamin', ppLink:'Polityka prywatności',
+    tosTitle:'Regulamin', ppTitle:'Polityka prywatności',
+    tosBody1:'Rejestrując się w MyViyar, zgadzasz się na korzystanie z platformy zgodnie z obowiązującymi przepisami. Jesteś odpowiedzialny za dokładność podanych informacji oraz bezpieczeństwo swoich danych logowania.',
+    tosBody2:'Viyar zastrzega sobie prawo do zawieszenia lub usunięcia kont naruszających niniejszy regulamin, w tym między innymi za oszustwa, wprowadzanie w błąd lub nadużywanie platformy.',
+    tosBody3:'Wszystkie treści publikowane na platformie pozostają Twoją własnością. Przesyłając je, udzielasz Viyar niewyłącznej licencji na ich wyświetlanie w ramach usługi.',
+    ppBody1:'Zbieramy dane osobowe takie jak imię, e-mail, numer telefonu i lokalizację w celu świadczenia i ulepszania naszych usług. Dane te są wykorzystywane wyłącznie do obsługi platformy MyViyar i nie są sprzedawane stronom trzecim.',
+    ppBody2:'Za Twoją wyraźną zgodą (skonfigurowaną podczas rejestracji) Twój profil może być publikowany na platformach partnerskich Viyar, aby potencjalni klienci mogli Cię znaleźć.',
+    ppBody3:'Masz prawo w dowolnym momencie uzyskać dostęp, poprawić lub usunąć swoje dane osobowe w ustawieniach konta. W razie pytań: support@viyar.pro.',
+    docAgreeTos:'Przeczytałem i zgadzam się z Regulaminem',
+    docAgreePp:'Przeczytałem i zgadzam się z Polityką prywatności',
+    errTerms:'Zaakceptuj warunki, aby kontynuować',
+    errTos:'Zaakceptuj Regulamin, aby kontynuować',
+    errPp:'Zaakceptuj Politykę prywatności, aby kontynuować',
+    prefsNotice:'Przed wyrażeniem zgody przejrzyj i skonfiguruj swoje preferencje poniżej.',
+    marketsLabel:'Rynki, na których chcesz działać',
+    mUA:'Ukraina', mPL:'Polska', mDE:'Niemcy', mCZ:'Czechy', mSK:'Słowacja', mEU:'Region UE', mWorld:'Cały świat',
+    nlLabel:'Newsletter',
+    nl1:'Promocje', nl1sub:'Zniżki i oferty',
+    nl2:'Aktualności', nl2sub:'Ogłoszenia',
+    nl3:'Porady', nl3sub:'Wiedza branżowa',
+    nl4:'Wydarzenia', nl4sub:'Webinary i targi',
+    dataLabel:'Zgoda na dane — platformy Viyar',
+    dataNote:'Zezwalam Viyar na publikowanie mojego profilu na tych platformach, aby klienci mogli mnie znaleźć:',
+    selAll:'Zaznacz wszystkie platformy', deselectAll:'Odznacz wszystkie',
+    agree2Label:'Zapoznałem się z preferencjami i zgadzam się ze wszystkimi warunkami',
+    notSelected:'Nie wybrano',
+    footerNote:'Tylko wymagane pola. Twoje dane są bezpieczne.',
+    submitBtn:'Utwórz konto', successBtn:'✓ Konto utworzone!',
+    nav1title:'Dane osobowe', nav1sub:'Imię, miasto, telefon',
+    nav2title:'Konto', nav2sub:'E-mail i hasło',
+    nav3title:'Preferencje', nav3sub:'Rynki i zgoda',
+    tagline:'Dołącz do tysięcy profesjonalistów branży meblarskiej w Europie.',
+    signinText:'Masz już konto? <a href="#">Zaloguj się</a>',
   }
+};
+
+let currentLang = 'en';
+
+function setLang(lang) {
+  currentLang = lang;
+  const t = LANGS[lang];
+  // Update buttons
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('lb-' + lang).classList.add('active');
+  // Update all data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+  // Re-bind doc links after innerHTML update (they lose event handlers)
+  document.querySelectorAll('.doc-link').forEach(a => {
+    const type = a.getAttribute('onclick') && a.getAttribute('onclick').includes('tos') ? 'tos' : 'pp';
+    a.onclick = (e) => { e.preventDefault(); openDoc(type); };
+  });
+  // Update placeholders
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.getAttribute('data-i18n-ph');
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+  // Update select first option
+  const sel = document.getElementById('f3');
+  if (sel && sel.options[0]) sel.options[0].text = t.selectOpt;
+  // Update "select all" button state
+  syncAllBtn();
 }
 
-function next() {
-  if (cur === 1) {
-    const a = document.getElementById('f1'), b = document.getElementById('f2');
-    let ok = true;
-    if (!a.value.trim()) { a.classList.add('err'); ok = false; } else a.classList.remove('err');
-    if (!b.value.trim()) { b.classList.add('err'); ok = false; } else b.classList.remove('err');
-    if (!ok) return;
-    cur = 2;
-  } else if (cur === 2) {
-    const c = document.getElementById('f3'), p = document.getElementById('f5');
-    let ok = true;
-    if (!c.value) { c.classList.add('err'); ok = false; } else c.classList.remove('err');
-    if (!p.value.trim()) { p.classList.add('err'); ok = false; } else p.classList.remove('err');
-    if (!ok) return;
-    cur = 3;
-  } else if (cur === 3) {
-    const e = document.getElementById('f6');
-    const p = document.getElementById('f7');
-    const p2 = document.getElementById('f8');
-    const ag = document.getElementById('agree');
-    let ok = true;
-    if (!e.value.trim() || !e.value.includes('@')) { e.classList.add('err'); ok = false; } else e.classList.remove('err');
-    if (p.value.length < 8) { p.classList.add('err'); ok = false; } else p.classList.remove('err');
-    if (p.value !== p2.value) { p2.classList.add('err'); ok = false; } else p2.classList.remove('err');
-    if (!ok) return;
-    if (!ag.checked) {
-      document.getElementById('err-agree').style.display = 'block';
-      cur = 4;
-      render();
-      return;
+/* ── scroll nav ── */
+const fs = document.getElementById('fs');
+const secs = ['sec1','sec2'];
+const navs = ['nav1','nav2'];
+
+fs.addEventListener('scroll', () => {
+  const st = fs.scrollTop;
+  let active = 0;
+  secs.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el && el.offsetTop - 60 <= st) active = i;
+  });
+  navs.forEach((id, i) => {
+    const el = document.getElementById(id);
+    el.classList.remove('active','done');
+    if (i < active) el.classList.add('done');
+    else if (i === active) el.classList.add('active');
+  });
+});
+
+function openDoc(type) {
+  // close any other open doc first
+  ['tos','pp'].forEach(t => {
+    if (t !== type) {
+      const p = document.getElementById('doc-' + t);
+      if (p) p.classList.remove('open');
     }
-    document.getElementById('err-agree').style.display = 'none';
-    alert('✅ Registration complete!');
-    return;
-  } else if (cur === 4) {
-    alert('✅ Registration complete!');
-    return;
+  });
+  const panel = document.getElementById('doc-' + type);
+  if (!panel) return;
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  if (!isOpen) setTimeout(() => panel.scrollIntoView({ behavior:'smooth', block:'nearest' }), 50);
+}
+
+function closeDoc(type) {
+  const panel = document.getElementById('doc-' + type);
+  if (panel) panel.classList.remove('open');
+}
+
+function onDocAgree(type) {
+  const docCb = document.getElementById('doc-agree-' + type);
+  const mainCb = document.getElementById('agree-' + type);
+  if (docCb && mainCb) {
+    mainCb.checked = docCb.checked;
+    mainCb.dispatchEvent(new Event('change'));
+    if (docCb.checked) setTimeout(() => closeDoc(type), 300);
   }
-  render();
 }
 
-function back() {
-  if (cur > 1) { cur--; render(); }
+function onAgreeTosChange() {
+  const checked = document.getElementById('agree-tos').checked;
+  document.getElementById('e-tos').style.display = 'none';
+  if (!checked) closeDoc('tos');
+  checkPrefsPanel();
 }
 
-function toggleCard(el) {
-  const cb = el.querySelector('input[type=checkbox]');
-  setTimeout(() => { el.classList.toggle('sel', cb.checked); }, 0);
+function onAgreePpChange() {
+  const checked = document.getElementById('agree-pp').checked;
+  document.getElementById('e-pp').style.display = 'none';
+  if (!checked) closeDoc('pp');
+  checkPrefsPanel();
 }
 
-function toggleSite(el) {
-  const cb = el.querySelector('input[type=checkbox]');
+function bothAgreed() {
+  return document.getElementById('agree-tos').checked &&
+         document.getElementById('agree-pp').checked;
+}
+
+function checkPrefsPanel() {
+  // prefs panel no longer used as agree gate — just keep it hidden
+}
+
+function onAgreeChange() {} // legacy no-op
+
+function onAgree2Change() {
+  if (document.getElementById('agree2').checked) {
+    document.getElementById('agree-tos').checked = true;
+    document.getElementById('agree-pp').checked = true;
+    document.getElementById('prefs-panel').classList.remove('open');
+    document.getElementById('e-tos').style.display = 'none';
+    document.getElementById('e-pp').style.display = 'none';
+  }
+}
+
+function togglePpa(id) {
+  const block = document.getElementById(id);
+  const head = block.querySelector('.ppa-head');
+  const body = block.querySelector('.ppa-body');
+  const isOpen = head.classList.contains('open');
+  head.classList.toggle('open', !isOpen);
+  body.style.display = isOpen ? 'none' : '';
+}
+
+function toggleChip(el, subId, group) {
+  const cb = el.querySelector('input');
   setTimeout(() => {
-    el.classList.toggle('sel', cb.checked);
-    updateSelectAllBtn();
+    el.classList.toggle('on', cb.checked);
+    if (subId) updatePpaSub(subId, group);
   }, 0);
 }
 
-function updateSelectAllBtn() {
-  const cards = document.querySelectorAll('.site-card');
-  const all = [...cards].every(c => c.querySelector('input').checked);
-  const btn = document.querySelector('.select-all-btn');
-  if (btn) btn.textContent = all ? 'Deselect all' : 'Select all';
+function updatePpaSub(subId, group) {
+  const sub = document.getElementById(subId);
+  if (!sub) return;
+  let vals = [];
+  if (group === 'markets') {
+    document.querySelectorAll('#ppa1 .chip input:checked').forEach(c => vals.push(c.value));
+  }
+  const t = LANGS[currentLang];
+  if (vals.length === 0) {
+    sub.textContent = t.notSelected || 'Not selected';
+    sub.classList.add('empty');
+  } else {
+    sub.textContent = vals.join(', ');
+    sub.classList.remove('empty');
+  }
+}
+
+function toggleNl(el, subId) {
+  const cb = el.querySelector('input');
+  setTimeout(() => {
+    el.classList.toggle('on', cb.checked);
+    if (subId) {
+      const sub = document.getElementById(subId);
+      const checked = document.querySelectorAll('#ppa3 .nl-card input:checked');
+      const t = LANGS[currentLang];
+      if (checked.length === 0) {
+        sub.textContent = t.notSelected || 'Not selected';
+        sub.classList.add('empty');
+      } else {
+        sub.textContent = checked.length + ' selected';
+        sub.classList.remove('empty');
+      }
+    }
+  }, 0);
+}
+
+function toggleSite(el, subId) {
+  const cb = el.querySelector('input');
+  setTimeout(() => {
+    el.classList.toggle('on', cb.checked);
+    if (subId) {
+      const sub = document.getElementById(subId);
+      const checked = document.querySelectorAll('#sc .site-chip input:checked');
+      const t = LANGS[currentLang];
+      if (checked.length === 0) {
+        sub.textContent = t.notSelected || 'Not selected';
+        sub.classList.add('empty');
+      } else {
+        sub.textContent = [...checked].map(c => c.value).join(', ');
+        sub.classList.remove('empty');
+      }
+    }
+    syncAllBtn();
+  }, 0);
+}
+
+function syncAllBtn() {
+  const t = LANGS[currentLang];
+  const chips = [...document.querySelectorAll('#sc .site-chip input')];
+  const all = chips.length > 0 && chips.every(c => c.checked);
+  const btn = document.getElementById('selAllBtn');
+  if (btn) btn.textContent = all ? t.deselectAll : t.selAll;
 }
 
 function toggleAllSites(btn) {
-  const cards = document.querySelectorAll('.site-card');
-  const all = [...cards].every(c => c.querySelector('input').checked);
-  cards.forEach(c => {
-    const cb = c.querySelector('input');
-    cb.checked = !all;
-    c.classList.toggle('sel', !all);
-  });
-  btn.textContent = all ? 'Select all' : 'Deselect all';
+  const t = LANGS[currentLang];
+  const chips = [...document.querySelectorAll('#sc .site-chip')];
+  const all = chips.every(c => c.querySelector('input').checked);
+  chips.forEach(c => { c.querySelector('input').checked = !all; c.classList.toggle('on', !all); });
+  btn.textContent = all ? t.selAll : t.deselectAll;
 }
 
-function togglePass(id, btn) {
+function togglePass(id, b) {
   const inp = document.getElementById(id);
   inp.type = inp.type === 'password' ? 'text' : 'password';
-  btn.style.color = inp.type === 'text' ? '#0080e0' : '#909090';
+  b.style.color = inp.type === 'text' ? '#0080e0' : '#bbb';
 }
 
-render();
+function setErr(id, errId, show) {
+  const el = document.getElementById(id);
+  const er = errId ? document.getElementById(errId) : null;
+  el.classList.toggle('err', show);
+  if (er) er.style.display = show ? 'block' : 'none';
+  return !show;
+}
+
+function submit() {
+  const t = LANGS[currentLang];
+  let ok = true;
+  ['f1','f2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el.value.trim()) { el.classList.add('err'); ok = false; } else el.classList.remove('err');
+  });
+  if (!document.getElementById('f3').value) { document.getElementById('f3').classList.add('err'); ok = false; } else document.getElementById('f3').classList.remove('err');
+  if (!document.getElementById('f5').value.trim()) { document.getElementById('f5').classList.add('err'); ok = false; } else document.getElementById('f5').classList.remove('err');
+
+  const e = document.getElementById('f6');
+  if (!setErr('f6','e6', !e.value.trim() || !e.value.includes('@'))) ok = false;
+
+  const p = document.getElementById('f7'), p2 = document.getElementById('f8');
+  if (!setErr('f7','e7', p.value.length < 8)) ok = false;
+  if (!setErr('f8','e8', p.value !== p2.value || !p2.value)) ok = false;
+
+  const tosCb = document.getElementById('agree-tos');
+  const ppCb = document.getElementById('agree-pp');
+  const eTos = document.getElementById('e-tos');
+  const ePp = document.getElementById('e-pp');
+
+  if (!tosCb.checked) { eTos.style.display = 'block'; ok = false; openDoc('tos'); }
+  else eTos.style.display = 'none';
+
+  if (!ppCb.checked) { ePp.style.display = 'block'; ok = false; if (tosCb.checked) openDoc('pp'); }
+  else ePp.style.display = 'none';
+
+  if (!ok) {
+    const firstErr = fs.querySelector('input.err, select.err');
+    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  const btn = document.getElementById('btnSub');
+  btn.textContent = t.successBtn;
+  btn.disabled = true;
+  btn.style.background = '#27ae60';
+}
+
+// Init ppa subs as empty
+document.addEventListener('DOMContentLoaded', () => {
+  ['ppa1-sub','ppa2-sub','ppa3-sub'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.add('empty');
+  });
+});
 </script>
 </body>
 </html>
